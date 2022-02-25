@@ -1,0 +1,18 @@
+﻿  Source.cpp
+Source.cpp(85): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+Source.cpp(106): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+Source.cpp(139): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+Source.cpp(191): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+Source.cpp(246): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+Source.cpp(278): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+Source.cpp(278): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
+Source.cpp(426): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+Source.cpp(481): warning C4101: 'start': unreferenced local variable
+Source.cpp(481): warning C4101: 'stop': unreferenced local variable
+  Generating code
+  12 of 1270 functions ( 0.9%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    17 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  Project1.vcxproj -> D:\Github\ParallelProgrammingJan2022\Project1\x64\Release\Project1.exe
+  Project1.vcxproj -> D:\Github\ParallelProgrammingJan2022\Project1\x64\Release\Project1.pdb (Full PDB)

@@ -1,0 +1,13 @@
+﻿  Source.cpp
+Source.cpp(55): warning C4018: '<': signed/unsigned mismatch
+Source.cpp(57): warning C4018: '<': signed/unsigned mismatch
+Source.cpp(66): warning C4018: '<': signed/unsigned mismatch
+Source.cpp(165): warning C4018: '<': signed/unsigned mismatch
+Source.cpp(178): warning C4018: '<': signed/unsigned mismatch
+Source.cpp(195): warning C4018: '<': signed/unsigned mismatch
+Source.cpp(299): warning C4018: '<': signed/unsigned mismatch
+  Generating code
+  All 1284 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  Project1.vcxproj -> D:\Github\ParallelProgrammingJan2022\Project1\Release\Project1.exe
+  Project1.vcxproj -> D:\Github\ParallelProgrammingJan2022\Project1\Release\Project1.pdb (Full PDB)
