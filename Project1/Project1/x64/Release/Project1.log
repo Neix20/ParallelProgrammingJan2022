@@ -1,18 +1,15 @@
 ﻿  Source.cpp
-Source.cpp(85): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-Source.cpp(106): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-Source.cpp(139): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-Source.cpp(191): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-Source.cpp(246): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-Source.cpp(278): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-Source.cpp(278): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
-Source.cpp(426): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-Source.cpp(481): warning C4101: 'start': unreferenced local variable
-Source.cpp(481): warning C4101: 'stop': unreferenced local variable
+Source.cpp(84): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+Source.cpp(105): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+Source.cpp(138): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+Source.cpp(224): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+Source.cpp(259): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+Source.cpp(259): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
+Source.cpp(407): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
   Generating code
-  12 of 1270 functions ( 0.9%) were compiled, the rest were copied from previous compilation.
+  14 of 1246 functions ( 1.1%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    17 functions had inline decision re-evaluated but remain unchanged
+    82 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   Project1.vcxproj -> D:\Github\ParallelProgrammingJan2022\Project1\x64\Release\Project1.exe
   Project1.vcxproj -> D:\Github\ParallelProgrammingJan2022\Project1\x64\Release\Project1.pdb (Full PDB)
