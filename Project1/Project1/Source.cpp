@@ -55,7 +55,7 @@ struct Path {
 			ss << path_arr[i];
 			if (i < path_arr.size() - 1) ss << " -> ";
 		}
-		ss << "\n" 
+		ss << "\n"
 			<< "Minimum Cost: " << cost;
 		return ss.str();
 	}
@@ -379,7 +379,7 @@ Path HeldKarp(vector<vector<double>> distance, vector<int> parcel_arr, vector<in
 				key = to_string(bits) + to_string(k);
 				umap[key] = make_pair(opt, parent);
 			}
-		}	
+		}
 	}
 
 	// Initialize Value
@@ -465,24 +465,21 @@ int main() {
 		<< "Number of Red Points: " << point_arr.size() << endl
 		<< "Number of Green Points: " << parcel_arr.size() << endl; */
 
-	clock_t start, stop;
-	start = clock();
+	/*clock_t start, stop;
+	start = clock();*/
 
 	// 4. Get Answer
 	Path ans = HeldKarp(adj_mat, parcel_arr, point_arr, name_arr);
 
-	cout << ans.toString() << endl;
+	/*cout << ans.toString() << endl;
 	stop = clock();
-	cout << "Time Taken: " << ((double)stop - start)<< "ms" << endl;
-
-	system("pause");
+	cout << "Time Taken: " << ((double)stop - start) << "ms" << endl;
+	system("pause");*/
 
 	// 5. Output Solution
 	ofstream outFile("solution.txt");
 	ans.printPath(outFile);
 	outFile.close();
-
-	 // system("pause");
 
 	return 0;
 }
