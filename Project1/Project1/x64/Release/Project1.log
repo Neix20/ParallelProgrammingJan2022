@@ -1,15 +1,14 @@
 ﻿  Source.cpp
-Source.cpp(84): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-Source.cpp(105): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-Source.cpp(138): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-Source.cpp(224): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-Source.cpp(259): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-Source.cpp(259): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
-Source.cpp(407): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\spiri\Desktop\ParallelProgrammingJan2022\Project1\Project1\Source.cpp(83,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\spiri\Desktop\ParallelProgrammingJan2022\Project1\Project1\Source.cpp(104,1): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\spiri\Desktop\ParallelProgrammingJan2022\Project1\Project1\Source.cpp(137,41): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\spiri\Desktop\ParallelProgrammingJan2022\Project1\Project1\Source.cpp(224,27): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\spiri\Desktop\ParallelProgrammingJan2022\Project1\Project1\Source.cpp(259,31): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\spiri\Desktop\ParallelProgrammingJan2022\Project1\Project1\Source.cpp(259,31): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
+C:\Users\spiri\Desktop\ParallelProgrammingJan2022\Project1\Project1\Source.cpp(410,2): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
   Generating code
-  14 of 1246 functions ( 1.1%) were compiled, the rest were copied from previous compilation.
+  1 of 873 functions ( 0.1%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    82 functions had inline decision re-evaluated but remain unchanged
+    15 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
-  Project1.vcxproj -> D:\Github\ParallelProgrammingJan2022\Project1\x64\Release\Project1.exe
-  Project1.vcxproj -> D:\Github\ParallelProgrammingJan2022\Project1\x64\Release\Project1.pdb (Full PDB)
+  Project1.vcxproj -> C:\Users\spiri\Desktop\ParallelProgrammingJan2022\Project1\x64\Release\Project1.exe

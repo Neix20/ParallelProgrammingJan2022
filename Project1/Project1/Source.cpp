@@ -1,6 +1,5 @@
 #include <time.h>
 #include <windows.h>
-#include <set>
 #include <cmath>
 #include <limits>
 #include <string>
@@ -218,6 +217,7 @@ vector<vector<int>> combinations(int start, int end, int r) {
 }
 
 // Combination Without Duplicate
+// Suspicious Point
 vector<vector<int>> combinations(vector<int> col_list, int r) {
 	vector<vector<int>> combs;
 
@@ -269,11 +269,12 @@ Path HeldKarp(vector<vector<double>> distance, vector<int> parcel_arr, vector<in
 	bool flag;
 
 	// Set transition cost from initial state
-	for (int k = 0; k < n; k++) {
+	for (int k : parcel_arr) {
 		key = to_string(1 << k) + to_string(k); //key as string
 		umap[key] = make_pair(distance[0][k], 0);
 	}
 
+	// Suspicious Point
 	for (int k = 1; k < point_arr.size() + 1; k++) {
 		vector<vector<int>> gSubsetArr = combinations(parcel_arr, k);
 		for (vector<int> gSubset : gSubsetArr) {
@@ -361,6 +362,7 @@ Path HeldKarp(vector<vector<double>> distance, vector<int> parcel_arr, vector<in
 
 				// Check if Key exist in our Map
 				if (umap.count(key)) {
+
 					flag = true;
 
 					tmp_opt = umap[key].first + distance[m][k];
@@ -461,25 +463,26 @@ int main() {
 	/*cout << "Total Number of Points: " << pt_arr.size() << endl
 		<< "Depot: 1" << endl
 		<< "Number of Red Points: " << point_arr.size() << endl
-		<< "Number of Green Points: " << parcel_arr.size() << endl;
+		<< "Number of Green Points: " << parcel_arr.size() << endl; */
 
 	clock_t start, stop;
-	start = clock();*/
+	start = clock();
 
 	// 4. Get Answer
 	Path ans = HeldKarp(adj_mat, parcel_arr, point_arr, name_arr);
 
-	/*cout << ans.toString() << endl;
+	cout << ans.toString() << endl;
 	stop = clock();
+	cout << "Time Taken: " << ((double)stop - start)<< "ms" << endl;
 
-	cout << "Time Taken: " << ((double)stop - start)<< "ms" << endl;*/
+	system("pause");
 
 	// 5. Output Solution
 	ofstream outFile("solution.txt");
 	ans.printPath(outFile);
 	outFile.close();
 
-	// system("pause");
+	 // system("pause");
 
 	return 0;
 }

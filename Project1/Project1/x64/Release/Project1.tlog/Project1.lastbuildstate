@@ -1,2 +1,2 @@
-#TargetFrameworkVersion=v4.0:PlatformToolSet=v140:EnableManagedIncrementalBuild=false:VCToolArchitecture=Native32Bit:WindowsTargetPlatformVersion=8.1
-Release|x64|D:\Github\ParallelProgrammingJan2022\Project1\|
+PlatformToolSet=v143:VCToolArchitecture=Native64Bit:VCToolsVersion=14.30.30705:TargetPlatformVersion=10.0.19041.0:
+Release|x64|C:\Users\spiri\Desktop\ParallelProgrammingJan2022\Project1\|
