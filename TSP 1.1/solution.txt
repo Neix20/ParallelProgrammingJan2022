@@ -1,4 +1,5 @@
 Depot
+<<<<<<< Updated upstream
 Parcel3
 Point10
 Parcel11
@@ -9,4 +10,16 @@ Parcel8
 Point4
 Parcel2
 Point1
+=======
+Parcel11
+Point10
+Parcel12
+Point13
+Parcel3
+Point1
+Parcel6
+Point4
+Parcel5
+Point7
+>>>>>>> Stashed changes
 Depot
