@@ -1,3 +1,4 @@
+#include <set>
 #include <ctime>
 #include <cmath>
 #include <limits>
@@ -92,44 +93,6 @@ bool containsSubStr(string str, string str2) {
 	return str.find(str2) != string::npos;
 }
 
-struct SubsetObj {
-	vector<int> parcel_arr;
-	vector<int> point_arr;
-	int size;
-
-	SubsetObj(vector<int> parcel_arr, vector<int> point_arr) {
-		this->parcel_arr = parcel_arr;
-		this->point_arr = point_arr;
-		this->size = parcel_arr.size() + point_arr.size();
-	}
-
-	SubsetObj() {
-		this->parcel_arr = vector<int>();
-		this->point_arr = vector<int>();
-		this->size = 0;
-	}
-
-	string toString() {
-		stringstream ss;
-		ss << "(";
-
-		ss << "[";
-		for (auto elem : parcel_arr)
-			ss << elem << ", ";
-		ss << "]";
-
-		ss << ", ";
-
-		ss << "[";
-		for (auto elem : point_arr)
-			ss << elem << ", ";
-		ss << "]";
-
-		ss << ")";
-		return ss.str();
-	}
-};
-
 // [To Optimize Start]
 // Create Adjacency Matrix
 vector<vector<double>> create_adj_mat(vector<Point> pt_arr) {
@@ -145,7 +108,7 @@ vector<vector<double>> create_adj_mat(vector<Point> pt_arr) {
 		y_ind = 0;
 
 		for (Point pt2 : pt_arr) {
-			flag = pt.name == pt2.name || (containsSubStr(pt.name, "Depot") && containsSubStr(pt2.name, "Point")) || (containsSubStr(pt.name, "Point") && containsSubStr(pt2.name, "Point"));
+			flag = pt.name == pt2.name || (containsSubStr(pt.name, "Depot") && containsSubStr(pt2.name, "Point")) || (containsSubStr(pt.name, "Point") && containsSubStr(pt2.name, "Point")) || (containsSubStr(pt.name, "Parcel") && containsSubStr(pt2.name, "Parcel")) || (containsSubStr(pt.name, "Parcel") && containsSubStr(pt2.name, "Depot"));
 			if (!flag) adj_mat[x_ind][y_ind] = distance(pt, pt2);
 			y_ind++;
 		}
@@ -179,6 +142,27 @@ vector<int> create_point_arr(vector<Point> pt_arr) {
 	}
 
 	return point_arr;
+}
+
+// [To Optimize End]
+
+vector<vector<double>> gen_adj_mat(vector<vector<double>> adj_mat, vector<int> col_list) {
+
+	int n = col_list.size(), x_ind(0);
+
+	vector<vector<double>> tmp_adj_mat(n, vector<double>(n, inf));
+
+	for (int i = 0; i < adj_mat.size(); i++) {
+		if (find(col_list.begin(), col_list.end(), i) != col_list.end()) {
+			for (int j = 0; j < n; j++) {
+				int col_ind = col_list[j];
+				tmp_adj_mat[x_ind][j] = adj_mat[i][col_ind];
+			}
+			x_ind++;
+		}
+	}
+
+	return tmp_adj_mat;
 }
 
 vector<vector<int>> combinations(int start, int end, int r) {
@@ -221,7 +205,8 @@ vector<vector<int>> combinations(vector<int> col_list, int r) {
 
 	int end = col_list.size();
 
-	if (r > end) return combs;
+	if (r > end)
+		return combs;
 
 	vector<int> a(r), b(r);
 	for (int i = 0; i < r; i++) {
@@ -231,17 +216,13 @@ vector<vector<int>> combinations(vector<int> col_list, int r) {
 
 	while (true) {
 		combs.push_back(b);
-
 		int i = r - 1;
-
 		while (i >= 0 && a[i] >= end - 1 - (r - 1 - i)) {
 			i--;
 		}
-
 		if (i < 0) {
 			break;
 		}
-
 		for (int j = a[i] + 1; i < r; j++, i++) {
 			a[i] = j;
 			b[i] = col_list[j];
@@ -275,231 +256,84 @@ vector<vector<int>> generateSubsets(vector<int> col_list, int r) {
 
 // Held-Karp Algorithm
 // Uses bitmask Backtracking to make algorithm Run Faster
-Path HeldKarpBestAns(vector<vector<double>> distance, vector<int> parcel_arr, vector<int> point_arr, vector<string> name_arr) {
+Path HeldKarp(vector<vector<double>> distance, vector<int> col_list, vector<string> name_arr) {
 	const int n = distance.size();
 
 	// Maps each subset of the nodes to the cost to reach that subset, as well
 	// as what node it passed before reaching this subset.
 	// Node subsets are represented as set bits.
 	unordered_map<string, pair <double, unsigned int>> umap;
-	vector<SubsetObj> subset_arr; // Generate Subset Array
-	vector<int> route_arr, subset1, subset2;
 	string key;
+	pair <double, unsigned int> value, best;
 	unsigned long bits, prev;
-	bool flag;
 
 	// Set transition cost from initial state
-	for (int k : parcel_arr) {
+	for (int k = 0; k < n; k++) {
 		key = to_string(1 << k) + to_string(k); //key as string
-
-		umap[key] = make_pair(distance[0][k], 0);
-
-		vector<int> gSubset = { k };
-
-		for (int l : point_arr) {
-			vector<int> rSubset = { l };
-
-			SubsetObj obj = SubsetObj(gSubset, rSubset);
-
-			subset_arr.push_back(obj);
-		}
+		value = make_pair(distance[0][k], 0);
+		umap[key] = value;
 	}
-
-	//vector<vector<vector<int>>> point_comb_arr(point_arr.size());
-	//for (int k = 1; k < point_arr.size() + 1; k++) {
-	//	point_comb_arr[k - 1] = combinations(point_arr, k);
-	//}
-
-	for (int k = 2; k < point_arr.size() + 1; k++) {
-
-		vector<vector<int>> gSubsetArr = combinations(parcel_arr, k);
-
-		for (vector<int> gSubset : gSubsetArr) {
-
-			for (int l = k - 1; l < k + 1; l++) {
-
-				vector<vector<int>> rSubsetArr = combinations(point_arr, l);
-
-				for (vector<int> rSubset : rSubsetArr) {
-
-					SubsetObj obj = SubsetObj(gSubset, rSubset);
-
-					subset_arr.push_back(obj);
-
-					if ((l + k) == 2 * point_arr.size()) {
-						bits = 0;
-
-						for (int bit : gSubset) {
-							bits |= 1 << bit;
-						}
-
-						for (int bit : rSubset) {
-							bits |= 1 << bit;
-						}
-
-						route_arr.push_back(bits);
-					}
-				}
-			}
-		}
-	}
-
-	// Sort SubsetObj by Size of Subset
-	/*sort(subset_arr.begin(), subset_arr.end(), [](SubsetObj& a, SubsetObj& b) {
-		return a.size < b.size;
-	});*/
-
-	bits = 0;
-	double opt = inf, tmp_opt = 0;
-	int parent = 0;
 
 	// Iterate subsets of increasing length and store intermediate results in classic dynamic programming manner
-	for (SubsetObj obj : subset_arr) {
-		bits = 0;
+	for (int subsize = 2; subsize < n; subsize++) {
+		for (auto subset : combinations(1, n, subsize)) {
+			// A subset of nodes {0,2,3,5} can be represented by the 2^0+2^3+2^5=10101 in base 2
 
-		for (int bit : obj.parcel_arr) {
-			bits |= 1 << bit;
-		}
+			// Set bits for all nodes in this subset
+			bits = 0;
+			for (auto bit : subset) {
+				bits |= 1 << bit;
+			}
 
-		for (int bit : obj.point_arr) {
-			bits |= 1 << bit;
-		}
-
-		if (obj.parcel_arr.size() == obj.point_arr.size()) {
-			// The last node FROM THE PREVIOUS SUBSET will be a green point
-			subset2 = obj.parcel_arr;
-		}
-		else {
-			// The last node FROM THE PREVIOUS SUBSET will be a red point
-			subset2 = obj.point_arr;
-		}
-
-		subset1 = vector<int>(obj.size, 0);
-
-		int ind = 0;
-
-		for (int elem : obj.parcel_arr) {
-			subset1[ind++] = elem;
-		}
-
-		for (int elem : obj.point_arr) {
-			subset1[ind++] = elem;
-		}
-
-		// Find the lowest cost to get to this subset
-		for (int k : subset1) {
-			prev = bits & ~(1 << k);
-
-			opt = inf;
-			parent = -1;
-			flag = false;
-
-			for (int m : subset2) {
-				key = to_string(prev) + to_string(m); // key prev
-
-				// Check if Key exist in our Map
-				if (umap.count(key)) {
-					flag = true;
-
-					tmp_opt = umap[key].first + distance[m][k];
-
-					// Replace Value if Current Cost is smaller than Best Cost
-					if (tmp_opt <= opt) {
-						opt = tmp_opt;
-						parent = m;
-					}
+			// Find the lowest cost to get to this subset
+			for (auto k : subset) {
+				prev = bits & ~(1 << k);
+				best = make_pair(inf, 0);
+				for (auto m : subset) {
+					if (m == k || m == 0) continue;
+					key = to_string(prev) + to_string(m); // key prev
+					value = make_pair(umap[key].first + distance[m][k], m); //new value
+					best = (best.first < value.first) ? best : value; // if best < value than best else value
 				}
-			}
-
-			if (flag) {
 				key = to_string(bits) + to_string(k);
-				umap[key] = make_pair(opt, parent);
+				umap[key] = best;
 			}
-		}	
+		}
 	}
 
-	// Initialize Value
-	opt = inf;
-	tmp_opt = 0;
-	parent = 0;
-	bits = 0;
+	// We're interested in all bits but the least significant (the start state)
+	bits = (1 << n) - 2;
 
-	// Get All Possible Final Paths (E.g. [1 2 3 4], [1 2 4 5], [2 3 4 5])
-	for (int route_bits : route_arr) {
-		for (int k : point_arr) {
+	// Calculate Optimal Cost
+	best = make_pair(inf, 0);
 
-			key = to_string(route_bits) + to_string(k); // Prev Key
-			tmp_opt = umap[key].first + distance[k][0];
-
-			// Replace Value if Current Cost is smaller than Best Cost
-			if (tmp_opt <= opt) {
-				opt = tmp_opt;
-				parent = k;
-				bits = route_bits;
-			}
-		}
+	for (int k = 1; k < n - 1; k++) {
+		key = to_string(bits) + to_string(k); // key prev
+		value = make_pair(umap[key].first + distance[k][0], k); //new value
+		best = (best.first < value.first) ? best : value; // if best < value than best else value 
 	}
 
 	// Backtrack to find full path
-	vector<string> path(2 * point_arr.size() + 2, "Depot");
+	vector<int> path(n + 1, 0);
+	vector<string> ans_path(n + 1, "Depot");
+	value = best;
+	for (int i = n - 1; i > 0; i--) {
+		path[i] = value.second;
 
-	for (int i = 2 * point_arr.size(); i > 0; i--) {
 		// Map Path Index-Element to Col List Index-Element
-		path[i] = name_arr[parent];
+		ans_path[i] = name_arr[col_list[path[i]]];
 
-		key = to_string(bits) + to_string(parent);
-
-		bits = bits & ~(1 << parent);
-
-		parent = umap[key].second;
+		key = to_string(bits) + to_string(path[i]);
+		value = umap[key];
+		bits = bits & ~(1 << path[i]);
 	}
 
-	return Path(path, opt);
+	return Path(ans_path, best.first);
 }
 
+// [For Debug Purpose]
+
 int main() {
-
-	//int vector_size = 20;
-	//vector<int> col_list(vector_size);
-	//for (int i = 1; i <= vector_size; i++) col_list[i - 1] = i;
-
-	//clock_t start, stop;
-	//start = clock();
-	//// 1.
-	//for (int k = 1; k <= vector_size; k++) {
-	//	for (int i = 0; i < 2; i++) {
-	//		combinations(col_list, k);
-	//	}
-	//}
-	//stop = clock();
-	//cout << "Time Taken: " << ((double)stop - start)<< "ms" << endl;
-
-	//start = clock();
-	//// 2.
-	//vector<vector<vector<int>>> comb_arr(vector_size);
-	//for (int k = 1; k <= vector_size; k++) {
-	//	comb_arr[k - 1] = combinations(col_list, k);
-	//}
-	//for (int k = 1; k <= vector_size; k++) {
-	//	for (int i = 0; i < 2; i++) {
-	//		comb_arr[k - 1];
-	//	}
-	//}
-	//stop = clock();
-	//cout << "Time Taken: " << ((double)stop - start)<< "ms" << endl;
-
-	//start = clock();
-	//// 3.
-	//for (int k = 1; k <= vector_size; k++) {
-	//	for (int i = 0; i < 2; i++) {
-	//		generateSubsets(col_list, k);
-	//	}
-	//}
-	//stop = clock();
-	//cout << "Time Taken: " << ((double)stop - start) << "ms" << endl;
-
-	//system("pause");
-	//return 0;
 
 	string fileName = "tsp.txt";
 
@@ -511,6 +345,7 @@ int main() {
 
 	if (inFile) {
 		while (!inFile.eof()) {
+
 			string tmp = "";
 			getline(inFile, tmp);
 			if (tmp == "") break;
@@ -526,6 +361,7 @@ int main() {
 			pt_arr.push_back(pt);
 			name_arr.push_back(pt_name);
 		}
+
 	}
 	else {
 		cout << "File " << fileName << " does not exist" << endl;
@@ -539,28 +375,65 @@ int main() {
 	vector<int> parcel_arr = create_parcel_arr(pt_arr);
 	vector<int> point_arr = create_point_arr(pt_arr);
 
+	// 4. Get Result
+
+	// Initialize Answer with Largest Possible Cost
+	Path ans = Path(), p1 = Path();
+
+	// Generate Combinations of Possible Parcel Point
+	// For the final answer, the shortest path will always share the same number of green points and number of red Points
+	// To brute force the solution, we generate all possible combination of green points.
+	int num_of_parcel = point_arr.size();
+	vector<vector<int>> possible_parcel_arr = combinations(parcel_arr, num_of_parcel);
+
 	cout << "Total Number of Points: " << pt_arr.size() << endl
 		<< "Depot: 1" << endl
 		<< "Number of Red Points: " << point_arr.size() << endl
 		<< "Number of Green Points: " << parcel_arr.size() << endl;
 
+	cout << "Total Number of Combinations: " << possible_parcel_arr.size() << endl;
+
+	// Start Timer to Calculate Time
 	long start, stop;
+		
 	start = clock();
 
-	// 4. Get Answer
-	Path ans_4 = HeldKarpBestAns(adj_mat, parcel_arr, point_arr, name_arr);
+	vector<vector<double>> tmp_adj_mat;
 
-	cout << ans_4.toString() << endl;
+	vector<int> col_list = vector<int>(2 * num_of_parcel + 1, 0);
+
+	int ind = 1;
+
+	for (auto possible_parcel_set : possible_parcel_arr) {
+
+		// Use Col List
+		for (int i = 0; i < num_of_parcel; i++) {
+			col_list[2 * i + 1] = possible_parcel_set[i];
+			col_list[2 * i + 2] = point_arr[i];
+		}
+
+		sort(col_list.begin(), col_list.end());
+
+		tmp_adj_mat = gen_adj_mat(adj_mat, col_list);
+
+		p1 = HeldKarp(tmp_adj_mat, col_list, name_arr);
+
+		ans = minPath(ans, p1);
+
+		// cout << "Progress: " << ind / (total * 1.0) * 100.0 << "%" << endl;
+
+		ind++;
+	}
+
+	// End Time
+	cout << ans.toString() << endl;
 	stop = clock();
 
 	cout << "Time Taken: " << stop - start << "ms" << endl;
 
-	system("pause");
-
-	// 5. Output Solution
-	/*ofstream outFile("solution.txt");
-	ans.printPath(outFile);
-	outFile.close();*/
+	// ofstream outFile("solution.txt");
+	// ans.printPath(name_arr, outFile);
+	// outFile.close();
 
 	return 0;
 }
