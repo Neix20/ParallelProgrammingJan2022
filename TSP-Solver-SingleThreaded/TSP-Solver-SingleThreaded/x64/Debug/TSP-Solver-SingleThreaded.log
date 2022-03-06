@@ -1,0 +1,11 @@
+﻿  Source.cpp
+d:\github\parallelprogrammingjan2022\tsp-solver-singlethreaded\tsp-solver-singlethreaded\source.cpp(82): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+d:\github\parallelprogrammingjan2022\tsp-solver-singlethreaded\tsp-solver-singlethreaded\source.cpp(103): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+d:\github\parallelprogrammingjan2022\tsp-solver-singlethreaded\tsp-solver-singlethreaded\source.cpp(136): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+d:\github\parallelprogrammingjan2022\tsp-solver-singlethreaded\tsp-solver-singlethreaded\source.cpp(222): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+d:\github\parallelprogrammingjan2022\tsp-solver-singlethreaded\tsp-solver-singlethreaded\source.cpp(258): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+d:\github\parallelprogrammingjan2022\tsp-solver-singlethreaded\tsp-solver-singlethreaded\source.cpp(279): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+d:\github\parallelprogrammingjan2022\tsp-solver-singlethreaded\tsp-solver-singlethreaded\source.cpp(279): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
+d:\github\parallelprogrammingjan2022\tsp-solver-singlethreaded\tsp-solver-singlethreaded\source.cpp(446): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  TSP-Solver-SingleThreaded.vcxproj -> D:\Github\ParallelProgrammingJan2022\TSP-Solver-SingleThreaded\x64\Debug\TSP-Solver-SingleThreaded.exe
+  TSP-Solver-SingleThreaded.vcxproj -> D:\Github\ParallelProgrammingJan2022\TSP-Solver-SingleThreaded\x64\Debug\TSP-Solver-SingleThreaded.pdb (Partial PDB)
