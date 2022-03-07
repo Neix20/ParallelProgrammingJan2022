@@ -68,7 +68,6 @@ struct Path {
 
 Path minPath(Path pth1, Path pth2) {
 	return (pth1.cost < pth2.cost) ? pth1 : pth2;
-
 }
 
 double distance(Point p1, Point p2) {
@@ -181,6 +180,7 @@ vector<int> create_point_arr(vector<Point> pt_arr) {
 	return point_arr;
 }
 
+// Generate Combinations => No Vector, No Duplicate
 vector<vector<int>> combinations(int start, int end, int r) {
 	vector<vector<int>> combs;
 
@@ -215,7 +215,7 @@ vector<vector<int>> combinations(int start, int end, int r) {
 	return combs;
 }
 
-// Combination Without Duplicate
+// Combination Without Duplicate => Self Written
 vector<vector<int>> combinations(vector<int> col_list, int r) {
 	vector<vector<int>> combs;
 
@@ -251,10 +251,48 @@ vector<vector<int>> combinations(vector<int> col_list, int r) {
 	return combs;
 }
 
+// Dynamic Binomial Coefficient to get the total number of combinations and Subset
+int binomialCoeff(int n, int k)
+{
+	vector<int> C(k + 1, 0);
+
+	C[0] = 1; // nC0 is 1
+
+	for (int i = 1; i <= n; i++)
+	{
+		for (int j = min(i, k); j > 0; j--) {
+			C[j] = C[j] + C[j - 1];
+		}
+	}
+	return C[k];
+}
+
+// This formula computes the total number of calculations needed
+// This formula constructs the bottom root of the tree to the final subset
+int gen_total_calculation(int gN, int rN) {
+	int ans = 0;
+
+	// 1 x 1
+	// cout << gN << "C1 * " << rN << "C1" << endl;
+	// cout << endl;
+	ans += gN * rN;
+
+	// 2 * 1, 2 * 2, 3 * 1, .... k * (l - 1) , k * l
+	for (int k = 2; k < rN + 1; k++) {
+		for (int l = k - 1; l < k + 1; l++) {
+			// cout << gN << "C" << k <<" * " << rN << "C" << l << endl;
+			ans += binomialCoeff(gN, k) * binomialCoeff(rN, l);
+		}
+	}
+
+	return ans;
+}
+
+
 // Held-Karp Algorithm
 // Uses bitmask Backtracking to make algorithm Run Faster
 Path HeldKarp(vector<vector<double>> distance, vector<int> parcel_arr, vector<int> point_arr, vector<string> name_arr) {
-	const int n = distance.size();
+	const int n = distance.size(), gN = parcel_arr.size(), rN = point_arr.size();
 
 	// Maps each subset of the nodes to the cost to reach that subset, as well
 	// as what node it passed before reaching this subset.
@@ -282,12 +320,12 @@ Path HeldKarp(vector<vector<double>> distance, vector<int> parcel_arr, vector<in
 		}
 	}
 
-	// vector<vector<vector<int>>> point_comb_arr(point_arr.size());
-	// for (int k = 1; k < point_arr.size() + 1; k++) {
-	// 	point_comb_arr[k - 1] = combinations(point_arr, k);
-	// }
+	 vector<vector<vector<int>>> point_comb_arr(rN);
+	 for (int k = 1; k < rN + 1; k++) {
+	 	point_comb_arr[k - 1] = combinations(point_arr, k);
+	 }
 
-	for (int k = 2; k < point_arr.size() + 1; k++) {
+	for (int k = 2; k < rN + 1; k++) {
 
 		vector<vector<int>> gSubsetArr = combinations(parcel_arr, k);
 
@@ -295,9 +333,9 @@ Path HeldKarp(vector<vector<double>> distance, vector<int> parcel_arr, vector<in
 
 			for (int l = k - 1; l < k + 1; l++) {
 
-				vector<vector<int>> rSubsetArr = combinations(point_arr, l);
+				/*vector<vector<int>> rSubsetArr = combinations(point_arr, l);*/
 
-				// vector<vector<int>> rSubsetArr = point_comb_arr[l - 1];
+				vector<vector<int>> rSubsetArr = point_comb_arr[l - 1];
 
 				for (vector<int> rSubset : rSubsetArr) {
 
@@ -305,7 +343,7 @@ Path HeldKarp(vector<vector<double>> distance, vector<int> parcel_arr, vector<in
 
 					subset_arr.push_back(obj);
 
-					if ((l + k) == 2 * point_arr.size()) {
+					if ((l + k) == 2 * rN) {
 						bits = 0;
 
 						for (int bit : gSubset) {
@@ -420,9 +458,9 @@ Path HeldKarp(vector<vector<double>> distance, vector<int> parcel_arr, vector<in
 	}
 
 	// Backtrack to find full path
-	vector<string> path(2 * point_arr.size() + 2, "Depot");
+	vector<string> path(2 * rN + 2, "Depot");
 
-	for (int i = 2 * point_arr.size(); i > 0; i--) {
+	for (int i = 2 * rN; i > 0; i--) {
 		// Map Path Index-Element to Col List Index-Element
 		path[i] = name_arr[parent];
 
@@ -436,48 +474,31 @@ Path HeldKarp(vector<vector<double>> distance, vector<int> parcel_arr, vector<in
 	return Path(path, opt);
 }
 
+string formatLargeNum(int v) {
+	string s = std::to_string(v);
+
+	int n = s.length() - 3;
+	int end = (v >= 0) ? 0 : 1; // Support for negative numbers
+	while (n > end) {
+		s.insert(n, ",");
+		n -= 3;
+	}
+
+	return s;
+}
+
 int main() {
-	//int vector_size = 20;
-	//vector<int> col_list(vector_size);
-	//for (int i = 1; i <= vector_size; i++) col_list[i - 1] = i;
+	/*int gN, rN;
+	gN = 28;
+	rN = 6;
+	double time_limit = 180.0;
+	double calc_per_sec = 55000.0;
+	int total = gen_total_calculation(gN, rN);
+	cout << "Total Number of Calculations: " << formatLargeNum(total) << endl;
+	cout << "Calculations Per Second: " << total / time_limit << endl;
+	cout << "Time Needed: " << total / calc_per_sec << "s" << endl;
 
-	//clock_t start, stop;
-	//start = clock();
-	//// 1.
-	//for (int k = 1; k <= vector_size; k++) {
-	//	for (int i = 0; i < 2; i++) {
-	//		combinations(col_list, k);
-	//	}
-	//}
-	//stop = clock();
-	//cout << "Time Taken: " << ((double)stop - start)<< "ms" << endl;
-
-	//start = clock();
-	//// 2.
-	//vector<vector<vector<int>>> comb_arr(vector_size);
-	//for (int k = 1; k <= vector_size; k++) {
-	//	comb_arr[k - 1] = combinations(col_list, k);
-	//}
-	//for (int k = 1; k <= vector_size; k++) {
-	//	for (int i = 0; i < 2; i++) {
-	//		comb_arr[k - 1];
-	//	}
-	//}
-	//stop = clock();
-	//cout << "Time Taken: " << ((double)stop - start)<< "ms" << endl;
-
-	//start = clock();
-	//// 3.
-	//for (int k = 1; k <= vector_size; k++) {
-	//	for (int i = 0; i < 2; i++) {
-	//		generateSubsets(col_list, k);
-	//	}
-	//}
-	//stop = clock();
-	//cout << "Time Taken: " << ((double)stop - start) << "ms" << endl;
-
-	//system("pause");
-	//return 0;
+	system("pause");*/
 
 	string fileName = "tsp.txt";
 
@@ -522,10 +543,16 @@ int main() {
 		<< "Number of Red Points: " << point_arr.size() << endl
 		<< "Number of Green Points: " << parcel_arr.size() << endl;
 
+	// 4. Generate Total Number of Combinations
+	// PLEASE REMEMBER TO REMOVE THIS LINE OF CODE, IT GENERATES ALL POSSIBLE NUMBER OF CALCULATION NEEDED
+	// FOR DEBUGGING PURPOSE ONLY
+
+	cout << "Total Number of Calculations: " << gen_total_calculation(parcel_arr.size(), point_arr.size()) << endl;
+
 	long start, stop;
 	start = clock();
 
-	// 4. Get Answer
+	// 5. Get Answer
 	Path ans = HeldKarp(adj_mat, parcel_arr, point_arr, name_arr);
 
 	cout << ans.toString() << endl;
@@ -533,7 +560,9 @@ int main() {
 
 	cout << "Time Taken: " << stop - start << "ms" << endl;
 
-	// 5. Output Solution
+	system("pause");
+
+	// 6. Output Solution
 	ofstream outFile("solution.txt");
 	ans.printPath(outFile);
 	outFile.close();

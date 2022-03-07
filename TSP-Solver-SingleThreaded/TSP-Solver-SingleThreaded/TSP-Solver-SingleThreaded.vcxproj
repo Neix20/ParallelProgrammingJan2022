@@ -110,10 +110,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Source.cpp" />
+    <Text Include="tsp.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="tsp.txt" />
+    <ClCompile Include="Combination-Shit.cpp" />
+    <ClCompile Include="DFS-Shit.cpp" />
+    <ClCompile Include="multi-held-karp-shit-real.cpp" />
+    <ClCompile Include="one-held-karp-best-so-far.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
