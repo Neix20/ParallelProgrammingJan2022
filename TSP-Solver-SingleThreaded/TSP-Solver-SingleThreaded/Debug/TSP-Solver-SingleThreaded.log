@@ -1,9 +1,0 @@
-﻿  Source.cpp
-d:\github\parallelprogrammingjan2022\tsp-solver-singlethreaded\tsp-solver-singlethreaded\source.cpp(53): warning C4018: '<': signed/unsigned mismatch
-d:\github\parallelprogrammingjan2022\tsp-solver-singlethreaded\tsp-solver-singlethreaded\source.cpp(55): warning C4018: '<': signed/unsigned mismatch
-d:\github\parallelprogrammingjan2022\tsp-solver-singlethreaded\tsp-solver-singlethreaded\source.cpp(63): warning C4018: '<': signed/unsigned mismatch
-d:\github\parallelprogrammingjan2022\tsp-solver-singlethreaded\tsp-solver-singlethreaded\source.cpp(162): warning C4018: '<': signed/unsigned mismatch
-d:\github\parallelprogrammingjan2022\tsp-solver-singlethreaded\tsp-solver-singlethreaded\source.cpp(175): warning C4018: '<': signed/unsigned mismatch
-d:\github\parallelprogrammingjan2022\tsp-solver-singlethreaded\tsp-solver-singlethreaded\source.cpp(313): warning C4018: '<': signed/unsigned mismatch
-  TSP-Solver-SingleThreaded.vcxproj -> D:\Github\ParallelProgrammingJan2022\TSP-Solver-SingleThreaded\Debug\TSP-Solver-SingleThreaded.exe
-  TSP-Solver-SingleThreaded.vcxproj -> D:\Github\ParallelProgrammingJan2022\TSP-Solver-SingleThreaded\Debug\TSP-Solver-SingleThreaded.pdb (Partial PDB)

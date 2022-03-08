@@ -1,0 +1,15 @@
+﻿  one-held-karp-best-so-far.cpp
+one-held-karp-best-so-far.cpp(81): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+one-held-karp-best-so-far.cpp(102): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+one-held-karp-best-so-far.cpp(135): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+one-held-karp-best-so-far.cpp(187): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+one-held-karp-best-so-far.cpp(233): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+one-held-karp-best-so-far.cpp(305): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+one-held-karp-best-so-far.cpp(305): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
+  Generating code
+  12 of 1328 functions ( 0.9%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    23 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  TSP-Solver.vcxproj -> D:\Github\ParallelProgrammingJan2022\TSP-Solver\x64\Release\TSP-Solver.exe
+  TSP-Solver.vcxproj -> D:\Github\ParallelProgrammingJan2022\TSP-Solver\x64\Release\TSP-Solver.pdb (Full PDB)

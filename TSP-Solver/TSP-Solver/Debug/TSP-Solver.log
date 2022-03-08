@@ -1,0 +1,13 @@
+﻿  one-held-karp-best-so-far.cpp
+d:\github\parallelprogrammingjan2022\tsp-solver\tsp-solver\one-held-karp-best-so-far.cpp(53): warning C4018: '<': signed/unsigned mismatch
+d:\github\parallelprogrammingjan2022\tsp-solver\tsp-solver\one-held-karp-best-so-far.cpp(55): warning C4018: '<': signed/unsigned mismatch
+d:\github\parallelprogrammingjan2022\tsp-solver\tsp-solver\one-held-karp-best-so-far.cpp(63): warning C4018: '<': signed/unsigned mismatch
+d:\github\parallelprogrammingjan2022\tsp-solver\tsp-solver\one-held-karp-best-so-far.cpp(161): warning C4018: '<': signed/unsigned mismatch
+d:\github\parallelprogrammingjan2022\tsp-solver\tsp-solver\one-held-karp-best-so-far.cpp(174): warning C4018: '<': signed/unsigned mismatch
+  multi-held-karp-shit-real.cpp
+  for-debugging.cpp
+  DFS-Shit.cpp
+  Combination-Shit.cpp
+  Generating Code...
+  TSP-Solver.vcxproj -> D:\Github\ParallelProgrammingJan2022\TSP-Solver\Debug\TSP-Solver.exe
+  TSP-Solver.vcxproj -> D:\Github\ParallelProgrammingJan2022\TSP-Solver\Debug\TSP-Solver.pdb (Partial PDB)

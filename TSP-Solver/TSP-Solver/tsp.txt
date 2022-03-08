@@ -1,0 +1,16 @@
+Depot 321 193
+Point1 391 174
+Parcel2 437 143
+Parcel3 470 201
+Point4 427 280
+Parcel5 397 328
+Parcel6 487 325
+Point7 304 285
+Parcel8 201 276
+Parcel9 268 336
+Point10 265 177
+Parcel11 212 146
+Parcel12 264 124
+Point13 399 96
+Parcel14 336 72
+Parcel15 469 66
