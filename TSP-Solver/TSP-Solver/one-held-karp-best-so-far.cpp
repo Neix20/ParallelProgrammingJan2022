@@ -54,7 +54,7 @@ struct Path {
 			ss << path_arr[i];
 			if (i < path_arr.size() - 1) ss << " -> ";
 		}
-		ss << "\n" 
+		ss << "\n"
 			<< "Minimum Cost: " << cost;
 		return ss.str();
 	}
@@ -65,31 +65,6 @@ struct Path {
 		}
 	}
 };
-
-Path minPath(Path pth1, Path pth2) {
-	return (pth1.cost < pth2.cost) ? pth1 : pth2;
-}
-
-double distance(Point p1, Point p2) {
-	return sqrt(pow(p1.x - p2.x, 2) + pow(p1.y - p2.y, 2));
-}
-
-vector<string> split(string str, string delim) {
-	vector<string> tmp_arr;
-	int ind = 0;
-	string token = "";
-	while ((ind = str.find(delim)) != string::npos) {
-		token = str.substr(0, ind);
-		tmp_arr.push_back(token);
-		str.erase(0, ind + delim.length());
-	}
-	tmp_arr.push_back(str);
-	return tmp_arr;
-}
-
-bool containsSubStr(string str, string str2) {
-	return str.find(str2) != string::npos;
-}
 
 struct SubsetObj {
 	vector<int> parcel_arr;
@@ -129,6 +104,116 @@ struct SubsetObj {
 	}
 };
 
+Path minPath(Path, Path);
+int binomialCoeff(int, int);
+double distance(Point, Point);
+string formatLargeNum(int, string);
+bool containsSubStr(string, string);
+int gen_total_calculation(int, int);
+vector<string> split(string, string);
+vector<int> create_point_arr(vector<Point>);
+vector<int> create_parcel_arr(vector<Point>);
+vector<vector<int>> combinations(vector<int>, int);
+vector<vector<double>> create_adj_mat(vector<Point>);
+Path HeldKarp(vector<vector<double>>, vector<int>, vector<int>, vector<string>);
+
+int main() {
+	string fileName = "tsp.txt";
+
+	vector<Point> pt_arr;
+	vector<string> name_arr;
+
+	// 1. Read Text File and Create Point Array
+	ifstream inFile(fileName);
+
+	if (inFile) {
+		while (!inFile.eof()) {
+			string tmp = "";
+			getline(inFile, tmp);
+			if (tmp == "") break;
+
+			vector<string> tmp_arr = split(tmp, " ");
+
+			string pt_name = tmp_arr[0];
+			int x_pos = stoi(tmp_arr[1]);
+			int y_pos = stoi(tmp_arr[2]);
+
+			Point pt = Point(pt_name, x_pos, y_pos);
+
+			pt_arr.push_back(pt);
+			name_arr.push_back(pt_name);
+		}
+	}
+	else {
+		cout << "File " << fileName << " does not exist" << endl;
+	}
+	inFile.close();
+
+	// 2. Create Adjacency Matrix of Size name_arr.length * name_arr.length
+	vector<vector<double>> adj_mat = create_adj_mat(pt_arr);
+
+	// 3. Create Parcel Array and Point Array
+	vector<int> parcel_arr = create_parcel_arr(pt_arr);
+	vector<int> point_arr = create_point_arr(pt_arr);
+
+	cout << "Total Number of Points: " << pt_arr.size() << endl
+		<< "Depot: 1" << endl
+		<< "Number of Red Points: " << point_arr.size() << endl
+		<< "Number of Green Points: " << parcel_arr.size() << endl;
+
+	long start, stop;
+	start = clock();
+
+	// 4. Generate Total Number of Combinations
+	// PLEASE REMEMBER TO REMOVE THIS LINE OF CODE, IT GENERATES ALL POSSIBLE NUMBER OF CALCULATION NEEDED
+	// FOR DEBUGGING PURPOSE ONLY
+
+	int total = gen_total_calculation(parcel_arr.size(), point_arr.size());
+	cout << endl << "Total Number of Calculations: " << formatLargeNum(total, ",") << endl;
+
+	// 5. Get Answer
+	Path ans = HeldKarp(adj_mat, parcel_arr, point_arr, name_arr);
+
+	cout << ans.toString() << endl;
+
+	stop = clock();
+	cout << "Time Taken: " << stop - start << "ms" << endl;
+
+	system("pause");
+
+	// 6. Output Solution
+	ofstream outFile("solution.txt");
+	ans.printPath(outFile);
+	outFile.close();
+
+	return 0;
+}
+
+Path minPath(Path pth1, Path pth2) {
+	return (pth1.cost < pth2.cost) ? pth1 : pth2;
+}
+
+double distance(Point p1, Point p2) {
+	return sqrt(pow(p1.x - p2.x, 2) + pow(p1.y - p2.y, 2));
+}
+
+vector<string> split(string str, string delim) {
+	vector<string> tmp_arr;
+	int ind = 0;
+	string token = "";
+	while ((ind = str.find(delim)) != string::npos) {
+		token = str.substr(0, ind);
+		tmp_arr.push_back(token);
+		str.erase(0, ind + delim.length());
+	}
+	tmp_arr.push_back(str);
+	return tmp_arr;
+}
+
+bool containsSubStr(string str, string str2) {
+	return str.find(str2) != string::npos;
+}
+
 // [To Optimize Start]
 // Create Adjacency Matrix
 vector<vector<double>> create_adj_mat(vector<Point> pt_arr) {
@@ -144,7 +229,11 @@ vector<vector<double>> create_adj_mat(vector<Point> pt_arr) {
 		y_ind = 0;
 
 		for (Point pt2 : pt_arr) {
-			flag = pt.name == pt2.name || (containsSubStr(pt.name, "Depot") && containsSubStr(pt2.name, "Point")) || (containsSubStr(pt.name, "Point") && containsSubStr(pt2.name, "Point")) || (containsSubStr(pt.name, "Parcel") && containsSubStr(pt2.name, "Parcel")) || (containsSubStr(pt.name, "Parcel") && containsSubStr(pt2.name, "Depot"));
+			flag = pt.name == pt2.name
+				|| (containsSubStr(pt.name, "Depot") && containsSubStr(pt2.name, "Point"))
+				|| (containsSubStr(pt.name, "Point") && containsSubStr(pt2.name, "Point"))
+				|| (containsSubStr(pt.name, "Parcel") && containsSubStr(pt2.name, "Parcel"))
+				|| (containsSubStr(pt.name, "Parcel") && containsSubStr(pt2.name, "Depot"));
 			if (!flag) adj_mat[x_ind][y_ind] = distance(pt, pt2);
 			y_ind++;
 		}
@@ -189,41 +278,6 @@ string formatLargeNum(int v, string delim) {
 	}
 
 	return s;
-}
-
-// Generate Combinations => No Vector, No Duplicate
-vector<vector<int>> combinations(int start, int end, int r) {
-	vector<vector<int>> combs;
-
-	if (r > end)
-		return combs;
-
-	vector<int> a(r);
-	for (int i = 0; i < r; ++i) {
-		a[i] = i;
-	}
-
-	if (a[0] >= start) {
-		combs.push_back(a);
-	}
-
-	while (true) {
-		int i = r - 1;
-		while (i >= 0 && a[i] >= end - 1 - (r - 1 - i)) {
-			i--;
-		}
-		if (i < 0) {
-			break;
-		}
-		for (int j = a[i] + 1; i < r; j++, i++) {
-			a[i] = j;
-		}
-		if (a[0] >= start) {
-			combs.push_back(a);
-		}
-	}
-
-	return combs;
 }
 
 // Combination Without Duplicate => Self Written
@@ -301,8 +355,8 @@ int gen_total_calculation(int gN, int rN) {
 
 // Held-Karp Algorithm
 // Uses bitmask Backtracking to make algorithm Run Faster
-Path HeldKarp(vector<vector<double>> distance, vector<int> parcel_arr, vector<int> point_arr, vector<string> name_arr) {
-	const int n = distance.size(), gN = parcel_arr.size(), rN = point_arr.size();
+Path HeldKarp(vector<vector<double>> adj_mat, vector<int> parcel_arr, vector<int> point_arr, vector<string> name_arr) {
+	const int n = adj_mat.size(), gN = parcel_arr.size(), rN = point_arr.size();
 
 	// Maps each subset of the nodes to the cost to reach that subset, as well
 	// as what node it passed before reaching this subset.
@@ -317,7 +371,7 @@ Path HeldKarp(vector<vector<double>> distance, vector<int> parcel_arr, vector<in
 	// Set transition cost from initial state
 	for (int k : parcel_arr) {
 		key = to_string(1 << k) + to_string(k); //key as string
-		umap[key] = make_pair(distance[0][k], 0);
+		umap[key] = make_pair(adj_mat[0][k], 0);
 
 		vector<int> gSubset = { k };
 
@@ -330,10 +384,10 @@ Path HeldKarp(vector<vector<double>> distance, vector<int> parcel_arr, vector<in
 		}
 	}
 
-	 vector<vector<vector<int>>> point_comb_arr(rN);
-	 for (int k = 1; k < rN + 1; k++) {
-	 	point_comb_arr[k - 1] = combinations(point_arr, k);
-	 }
+	vector<vector<vector<int>>> point_comb_arr(rN);
+	for (int k = 1; k < rN + 1; k++) {
+		point_comb_arr[k - 1] = combinations(point_arr, k);
+	}
 
 	for (int k = 2; k < rN + 1; k++) {
 
@@ -373,7 +427,7 @@ Path HeldKarp(vector<vector<double>> distance, vector<int> parcel_arr, vector<in
 
 	// Sort SubsetObj by Size of Subset
 	/*sort(subset_arr.begin(), subset_arr.end(), [](SubsetObj& a, SubsetObj& b) {
-		return a.size < b.size;
+	return a.size < b.size;
 	});*/
 
 	bits = 0;
@@ -425,11 +479,11 @@ Path HeldKarp(vector<vector<double>> distance, vector<int> parcel_arr, vector<in
 			for (int m : subset2) {
 				key = to_string(prev) + to_string(m); // key prev
 
-				// Check if Key exist in our Map
+													  // Check if Key exist in our Map
 				if (umap.count(key)) {
 					flag = true;
 
-					tmp_opt = umap[key].first + distance[m][k];
+					tmp_opt = umap[key].first + adj_mat[m][k];
 
 					// Replace Value if Current Cost is smaller than Best Cost
 					if (tmp_opt <= opt) {
@@ -443,7 +497,7 @@ Path HeldKarp(vector<vector<double>> distance, vector<int> parcel_arr, vector<in
 				key = to_string(bits) + to_string(k);
 				umap[key] = make_pair(opt, parent);
 			}
-		}	
+		}
 	}
 
 	// Initialize Value
@@ -457,7 +511,7 @@ Path HeldKarp(vector<vector<double>> distance, vector<int> parcel_arr, vector<in
 		for (int k : point_arr) {
 
 			key = to_string(route_bits) + to_string(k); // Prev Key
-			tmp_opt = umap[key].first + distance[k][0];
+			tmp_opt = umap[key].first + adj_mat[k][0];
 
 			// Replace Value if Current Cost is smaller than Best Cost
 			if (tmp_opt <= opt) {
@@ -483,76 +537,4 @@ Path HeldKarp(vector<vector<double>> distance, vector<int> parcel_arr, vector<in
 	}
 
 	return Path(path, opt);
-}
-
-int main() {
-	string fileName = "tsp.txt";
-
-	vector<Point> pt_arr;
-	vector<string> name_arr;
-
-	// 1. Read Text File and Create Point Array
-	ifstream inFile(fileName);
-
-	if (inFile) {
-		while (!inFile.eof()) {
-			string tmp = "";
-			getline(inFile, tmp);
-			if (tmp == "") break;
-
-			vector<string> tmp_arr = split(tmp, " ");
-
-			string pt_name = tmp_arr[0];
-			int x_pos = stoi(tmp_arr[1]);
-			int y_pos = stoi(tmp_arr[2]);
-
-			Point pt = Point(pt_name, x_pos, y_pos);
-
-			pt_arr.push_back(pt);
-			name_arr.push_back(pt_name);
-		}
-	}
-	else {
-		cout << "File " << fileName << " does not exist" << endl;
-	}
-	inFile.close();
-
-	// 2. Create Adjacency Matrix of Size name_arr.length * name_arr.length
-	vector<vector<double>> adj_mat = create_adj_mat(pt_arr);
-
-	// 3. Create Parcel Array and Point Array
-	vector<int> parcel_arr = create_parcel_arr(pt_arr);
-	vector<int> point_arr = create_point_arr(pt_arr);
-
-	//cout << "Total Number of Points: " << pt_arr.size() << endl
-	//	<< "Depot: 1" << endl
-	//	<< "Number of Red Points: " << point_arr.size() << endl
-	//	<< "Number of Green Points: " << parcel_arr.size() << endl;
-
-	//long start, stop;
-	//start = clock();
-
-	//// 4. Generate Total Number of Combinations
-	//// PLEASE REMEMBER TO REMOVE THIS LINE OF CODE, IT GENERATES ALL POSSIBLE NUMBER OF CALCULATION NEEDED
-	//// FOR DEBUGGING PURPOSE ONLY
-
-	//int total = gen_total_calculation(parcel_arr.size(), point_arr.size());
-	//cout << endl << "Total Number of Calculations: " << formatLargeNum(total, ",") << endl;
-
-	// 5. Get Answer
-	Path ans = HeldKarp(adj_mat, parcel_arr, point_arr, name_arr);
-
-	/*cout << ans.toString() << endl;
-
-	stop = clock();
-	cout << "Time Taken: " << stop - start << "ms" << endl;
-
-	system("pause");*/
-
-	// 6. Output Solution
-	ofstream outFile("solution.txt");
-	ans.printPath(outFile);
-	outFile.close();
-
-	return 0;
 }
