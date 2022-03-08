@@ -256,7 +256,7 @@
 //
 //// Held-Karp Algorithm
 //// Uses bitmask Backtracking to make algorithm Run Faster
-//Path HeldKarp(vector<vector<double>> distance, vector<int> col_list, vector<string> name_arr) {
+//Path HeldKarpShit(vector<vector<double>> distance, vector<int> col_list, vector<string> name_arr) {
 //	const int n = distance.size();
 //
 //	// Maps each subset of the nodes to the cost to reach that subset, as well
@@ -331,6 +331,48 @@
 //	return Path(ans_path, best.first);
 //}
 //
+//Path multiHeldKarpShit(vector<vector<double>> adj_mat, vector<int> parcel_arr, vector<int> point_arr, vector<string> name_arr) {
+//	// Initialize Answer with Largest Possible Cost
+//	Path ans = Path(), p1 = Path();
+//
+//	// Generate Combinations of Possible Parcel Point
+//	// For the final answer, the shortest path will always share the same number of green points and number of red Points
+//	// To brute force the solution, we generate all possible combination of green points.
+//	int num_of_parcel = point_arr.size();
+//	vector<vector<int>> possible_parcel_arr = combinations(parcel_arr, num_of_parcel);
+//
+//	cout << "Total Number of Combinations: " << possible_parcel_arr.size() << endl;
+//
+//	// Start Timer to Calculate Time
+//
+//	vector<vector<double>> tmp_adj_mat;
+//
+//	vector<int> col_list = vector<int>(2 * num_of_parcel + 1, 0);
+//
+//	int ind = 1;
+//
+//	for (auto possible_parcel_set : possible_parcel_arr) {
+//
+//		// Use Col List
+//		for (int i = 0; i < num_of_parcel; i++) {
+//			col_list[2 * i + 1] = possible_parcel_set[i];
+//			col_list[2 * i + 2] = point_arr[i];
+//		}
+//
+//		sort(col_list.begin(), col_list.end());
+//
+//		tmp_adj_mat = gen_adj_mat(adj_mat, col_list);
+//
+//		p1 = HeldKarpShit(tmp_adj_mat, col_list, name_arr);
+//
+//		ans = minPath(ans, p1);
+//
+//		ind++;
+//	}
+//
+//	return ans;
+//}
+//
 //// [For Debug Purpose]
 //
 //int main() {
@@ -375,61 +417,22 @@
 //	vector<int> parcel_arr = create_parcel_arr(pt_arr);
 //	vector<int> point_arr = create_point_arr(pt_arr);
 //
-//	// 4. Get Result
-//
-//	// Initialize Answer with Largest Possible Cost
-//	Path ans = Path(), p1 = Path();
-//
-//	// Generate Combinations of Possible Parcel Point
-//	// For the final answer, the shortest path will always share the same number of green points and number of red Points
-//	// To brute force the solution, we generate all possible combination of green points.
-//	int num_of_parcel = point_arr.size();
-//	vector<vector<int>> possible_parcel_arr = combinations(parcel_arr, num_of_parcel);
-//
 //	cout << "Total Number of Points: " << pt_arr.size() << endl
 //		<< "Depot: 1" << endl
 //		<< "Number of Red Points: " << point_arr.size() << endl
 //		<< "Number of Green Points: " << parcel_arr.size() << endl;
 //
-//	cout << "Total Number of Combinations: " << possible_parcel_arr.size() << endl;
-//
-//	// Start Timer to Calculate Time
+//	// 4. Get Result
 //	long start, stop;
-//		
+//
 //	start = clock();
-//
-//	vector<vector<double>> tmp_adj_mat;
-//
-//	vector<int> col_list = vector<int>(2 * num_of_parcel + 1, 0);
-//
-//	int ind = 1;
-//
-//	for (auto possible_parcel_set : possible_parcel_arr) {
-//
-//		// Use Col List
-//		for (int i = 0; i < num_of_parcel; i++) {
-//			col_list[2 * i + 1] = possible_parcel_set[i];
-//			col_list[2 * i + 2] = point_arr[i];
-//		}
-//
-//		sort(col_list.begin(), col_list.end());
-//
-//		tmp_adj_mat = gen_adj_mat(adj_mat, col_list);
-//
-//		p1 = HeldKarp(tmp_adj_mat, col_list, name_arr);
-//
-//		ans = minPath(ans, p1);
-//
-//		// cout << "Progress: " << ind / (total * 1.0) * 100.0 << "%" << endl;
-//
-//		ind++;
-//	}
-//
-//	// End Time
+//	cout << endl << "Multiple Held Karp Shit: " << endl;
+//	Path ans = multiHeldKarpShit(adj_mat, parcel_arr, point_arr, name_arr);
 //	cout << ans.toString() << endl;
 //	stop = clock();
-//
 //	cout << "Time Taken: " << stop - start << "ms" << endl;
+//
+//	system("pause");
 //
 //	// ofstream outFile("solution.txt");
 //	// ans.printPath(name_arr, outFile);

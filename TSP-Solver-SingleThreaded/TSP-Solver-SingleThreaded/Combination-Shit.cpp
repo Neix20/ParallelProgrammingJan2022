@@ -142,6 +142,8 @@
 //	return point_arr;
 //}
 //
+//
+//// Combination Shit Cpp
 //vector<vector<int>> getPossiblePath3(vector<int> arr, set<int> visited, vector<int> path, int cur, int range){
 //	visited.insert(cur);
 //	path.push_back(cur);
@@ -180,6 +182,49 @@
 //		combs.insert(combs.end(), tmp_arr.begin(), tmp_arr.end());
 //	}
 //	return combs;
+//}
+//
+//Path combination_shit(vector<vector<double>> adj_mat, vector<int> parcel_arr, vector<int> point_arr, vector<string> name_arr) {
+//	vector<vector<int>> p_possible = getPossiblePath(parcel_arr, point_arr.size());
+//	vector<vector<int>> p_point = getPossiblePath(point_arr, point_arr.size());
+//
+//	cout << "Total Number of Combinations: " << p_possible.size() * p_point.size() << endl;
+//
+//	bool flag;
+//	double cost = 0, min_cost = inf;
+//	vector<int> min_path;
+//	for (auto parcel_point : p_possible) {
+//		for (auto point_point : p_point) {
+//			flag = false;
+//
+//			vector<int> path_arr(2 * point_arr.size() + 2, 0);
+//			for (int i = 0; i < parcel_point.size(); i++) {
+//				path_arr[2 * i + 1] = parcel_point[i];
+//				path_arr[2 * i + 2] = point_point[i];
+//			}
+//
+//			cost = 0;
+//			for (int i = 0; i < path_arr.size() - 1; i++) {
+//				cost += adj_mat[path_arr[i]][path_arr[i + 1]];
+//				if (cost >= min_cost) {
+//					flag = true;
+//					break;
+//				}
+//			}
+//
+//			if (flag) continue;
+//
+//			min_cost = cost;
+//			min_path = path_arr;
+//		}
+//	}
+//
+//	vector<string> ans_path(2 * point_arr.size() + 2);
+//	for (int i = 0; i < min_path.size(); i++) {
+//		ans_path[i] = name_arr[min_path[i]];
+//	}
+//
+//	return Path(ans_path, min_cost);
 //}
 //
 //int main() {
@@ -229,55 +274,19 @@
 //		<< "Number of Red Points: " << point_arr.size() << endl
 //		<< "Number of Green Points: " << parcel_arr.size() << endl;
 //
-//	// 3. DFS
+//	// 4. Compute Solution
 //	long start, stop;
-//	start = clock();
 //
-//	auto p_possible = getPossiblePath(parcel_arr, point_arr.size());
-//	auto p_point = getPossiblePath(point_arr, point_arr.size());
+//	start = clock();
+//	Path ans_comb_shit = combination_shit(adj_mat, parcel_arr, point_arr, name_arr);
+//	cout << ans_comb_shit.toString() << endl;
 //	stop = clock();
 //
-//	cout << "Total Number of Combinations: " << p_possible.size() * p_point.size() << endl;
-//
-//	bool flag;
-//	double cost = 0, min_cost = inf;
-//	vector<int> min_path;
-//	for(auto parcel_point : p_possible){
-//		for(auto point_point : p_point){
-//			flag = false;
-//
-//			vector<int> path_arr(2 * point_arr.size() + 2, 0);
-//			for(int i = 0; i < parcel_point.size(); i++){
-//				path_arr[2 * i + 1] = parcel_point[i];
-//				path_arr[2 * i + 2] = point_point[i];
-//			}
-//
-//			cost = 0;
-//			for(int i = 0; i < path_arr.size() - 1; i++){
-//				cost += adj_mat[path_arr[i]][path_arr[i + 1]];
-//				if(cost >= min_cost){
-//					flag = true;
-//					break;
-//				}
-//			}
-//
-//			if(flag) continue;
-//
-//			min_cost = cost;
-//			min_path = path_arr;
-//		}
-//	}
-//
-//	vector<string> ans_path(2 * point_arr.size() + 2);
-//	for(int i = 0; i < min_path.size(); i++){
-//		ans_path[i] = name_arr[min_path[i]];
-//	}
-//
-//	Path ans = Path(ans_path, min_cost);
-//
-//	cout << ans.toString() << endl;
-//
 //	cout << "Time Taken: " << stop - start << "ms" << endl;
+//
+//	system("pause");
+//
+//
 //
 //	// ofstream outFile("solution.txt");
 //	// ans.printPath(name_arr, cout);

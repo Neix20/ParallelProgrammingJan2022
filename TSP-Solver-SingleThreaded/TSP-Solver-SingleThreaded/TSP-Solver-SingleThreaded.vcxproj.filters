@@ -32,5 +32,8 @@
     <ClCompile Include="one-held-karp-best-so-far.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="for-debugging.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

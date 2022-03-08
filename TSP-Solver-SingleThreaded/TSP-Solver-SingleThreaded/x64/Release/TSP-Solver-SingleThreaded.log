@@ -1,16 +1,6 @@
-﻿  one-held-karp-best-so-far.cpp
-one-held-karp-best-so-far.cpp(81): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-one-held-karp-best-so-far.cpp(102): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-one-held-karp-best-so-far.cpp(135): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-one-held-karp-best-so-far.cpp(222): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-one-held-karp-best-so-far.cpp(295): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-one-held-karp-best-so-far.cpp(295): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
-one-held-karp-best-so-far.cpp(480): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-one-held-karp-best-so-far.cpp(550): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+﻿  multi-held-karp-shit-real.cpp
   Generating code
-  49 of 1353 functions ( 3.6%) were compiled, the rest were copied from previous compilation.
-    22 functions were new in current compilation
-    84 functions had inline decision re-evaluated but remain unchanged
+  Compiler switch has changed, fall back to full compilation.
+  All 1143 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
   Finished generating code
-  TSP-Solver-SingleThreaded.vcxproj -> D:\Github\ParallelProgrammingJan2022\TSP-Solver-SingleThreaded\x64\Release\TSP-Solver-SingleThreaded.exe
-  TSP-Solver-SingleThreaded.vcxproj -> D:\Github\ParallelProgrammingJan2022\TSP-Solver-SingleThreaded\x64\Release\TSP-Solver-SingleThreaded.pdb (Full PDB)
+  TSP-Solver-SingleThreaded.vcxproj -> C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver-SingleThreaded\x64\Release\TSP-Solver-SingleThreaded.exe
