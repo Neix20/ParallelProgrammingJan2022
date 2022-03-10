@@ -3,6 +3,7 @@
         "*.rmd": "markdown",
         "vector": "cpp",
         "utility": "cpp",
-        "future": "cpp"
+        "future": "cpp",
+        "thread": "cpp"
     }
 }

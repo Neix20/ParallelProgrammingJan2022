@@ -16,7 +16,7 @@ using namespace std;
 const double inf = numeric_limits<double>::infinity();
 
 //may return 0 when not able to detect
-const auto processor_count = std::thread::hardware_concurrency();
+const auto processor_count = thread::hardware_concurrency();
 
 struct Point {
 	string name;
@@ -274,18 +274,30 @@ Path HeldKarpMultiThreaded(vector<vector<double>> adj_mat, vector<int> parcel_ar
 	// 1. Loop
 	int cur_size = 0;
     int num_of_core = processor_count; // Set Number of Cores Here
-    vector<future<void>> thread_arr;
+    // vector<future<void>> thread_arr;
+	vector<thread> thread_arr;
 	for (vector<SubsetObj> arr : subset_arr) {
 		cur_size = arr.size();
 
-        // Dynamic
-        for(int i = 0; i < num_of_core; i++){
-            thread_arr.emplace_back(async(parallelHeldKarpMap, adj_mat, vector<SubsetObj>(arr.begin() + i * cur_size / num_of_core, arr.begin() + (i + 1) * cur_size / num_of_core)));
-        }
+		// Dynamic [Thread]
+		for(int i = 0; i < num_of_core; i++){
+		    thread_arr.push_back(thread(parallelHeldKarpMap, adj_mat, vector<SubsetObj>(arr.begin() + i * cur_size / num_of_core, arr.begin() + (i + 1) * cur_size / num_of_core)));
+		}
 
-        for (auto& action : thread_arr) {
-            action.wait();
-        }
+		for (auto& th : thread_arr) {
+		    if(th.joinable()) {
+				th.join();
+			}
+		}
+
+        // Dynamic [Async Method]
+        // for(int i = 0; i < num_of_core; i++){
+        //     thread_arr.emplace_back(async(parallelHeldKarpMap, adj_mat, vector<SubsetObj>(arr.begin() + i * cur_size / num_of_core, arr.begin() + (i + 1) * cur_size / num_of_core)));
+        // }
+
+        // for (auto& action : thread_arr) {
+        //     action.wait();
+        // }
 
         // Hard Code
 		// auto f1 = async(parallelHeldKarpMap, adj_mat, vector<SubsetObj>(arr.begin() + 0 * cur_size / 4, arr.begin() + 1 * cur_size / 4));
