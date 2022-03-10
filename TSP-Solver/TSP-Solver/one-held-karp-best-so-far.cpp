@@ -12,6 +12,7 @@ using namespace std;
 
 const double inf = numeric_limits<double>::infinity();
 
+// Point Object is used to create (X,Y) point from the tsp.txt file
 struct Point {
 	string name;
 	int x;
@@ -33,6 +34,7 @@ struct Point {
 	}
 };
 
+// Path Object is used to store minimum cost and minimum tour value
 struct Path {
 	vector<string> path_arr;
 	double cost;
@@ -66,6 +68,8 @@ struct Path {
 	}
 };
 
+// SubsetObj is used to store combinations of Parcel Array, and combinations of points Array respectively
+// It is used to interchange between parcel array or point array based on current last node
 struct SubsetObj {
 	vector<int> parcel_arr;
 	vector<int> point_arr;
@@ -118,7 +122,7 @@ vector<vector<double>> create_adj_mat(vector<Point>);
 
 // Held-Karp Algorithm
 // Uses bitmask Backtracking to make algorithm Run Faster
-Path HeldKarp(vector<vector<double>> adj_mat, vector<int> parcel_arr, vector<int> point_arr, vector<string> name_arr) {
+Path HeldKarpSingleThreaded(vector<vector<double>> adj_mat, vector<int> parcel_arr, vector<int> point_arr, vector<string> name_arr) {
 	const int n = adj_mat.size(), gN = parcel_arr.size(), rN = point_arr.size();
 
 	// Maps each subset of the nodes to the cost to reach that subset, as well
@@ -126,9 +130,8 @@ Path HeldKarp(vector<vector<double>> adj_mat, vector<int> parcel_arr, vector<int
 	// Node subsets are represented as set bits.
 	unordered_map<string, pair <double, unsigned int>> umap;
 
-	int subset_size = gen_total_calculation(parcel_arr.size(), point_arr.size());
+	int subset_size = gen_total_calculation(parcel_arr.size(), point_arr.size()), subset_ind = 0;
 	vector<SubsetObj> subset_arr(subset_size); // Generate Subset Array
-	int subset_ind = 0;
 
 	vector<int> route_arr, subset1, subset2;
 	string key;
@@ -146,6 +149,10 @@ Path HeldKarp(vector<vector<double>> adj_mat, vector<int> parcel_arr, vector<int
 			vector<int> rSubset = { l };
 
 			subset_arr[subset_ind++] = SubsetObj(gSubset, rSubset);
+
+			// subset_arr.emplace_back(SubsetObj(gSubset, rSubset));
+
+			// subset_arr.push_back(SubsetObj(gSubset, rSubset));
 		}
 	}
 
@@ -167,6 +174,10 @@ Path HeldKarp(vector<vector<double>> adj_mat, vector<int> parcel_arr, vector<int
 				for (vector<int> rSubset : rSubsetArr) {
 
 					subset_arr[subset_ind++] = SubsetObj(gSubset, rSubset);
+
+					/*subset_arr.emplace_back(SubsetObj(gSubset, rSubset));*/
+
+					// subset_arr.push_back(SubsetObj(gSubset, rSubset));
 
 					if ((l + k) == 2 * rN) {
 						bits = 0;
@@ -283,11 +294,8 @@ Path HeldKarp(vector<vector<double>> adj_mat, vector<int> parcel_arr, vector<int
 	for (int i = 2 * rN; i > 0; i--) {
 		// Map Path Index-Element to Col List Index-Element
 		path[i] = name_arr[parent];
-
 		key = to_string(bits) + to_string(parent);
-
 		bits = bits & ~(1 << parent);
-
 		parent = umap.at(key).second;
 	}
 
@@ -295,18 +303,6 @@ Path HeldKarp(vector<vector<double>> adj_mat, vector<int> parcel_arr, vector<int
 }
 
 int main() {
-
-	/*long start, stop;
-
-	start = clock();
-	vector<int> parcel_arr = { 1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23 };
-	vector<int> point_arr = { 2, 4, 6, 8, 10, 12 };
-
-	vector<SubsetObj> subset_arr = testFunc(parcel_arr, point_arr);
-	stop = clock();
-	cout << "Time Taken: " << stop - start << "ms" << endl;
-
-	system("pause");*/
 
 	string fileName = "tsp.txt";
 
@@ -346,31 +342,34 @@ int main() {
 	vector<int> parcel_arr = create_parcel_arr(pt_arr);
 	vector<int> point_arr = create_point_arr(pt_arr);
 
-	cout << "Total Number of Points: " << pt_arr.size() << endl
-		<< "Depot: 1" << endl
-		<< "Number of Red Points: " << point_arr.size() << endl
-		<< "Number of Green Points: " << parcel_arr.size() << endl;
+	//cout << "Total Number of Points: " << pt_arr.size() << endl
+	//	<< "Depot: 1" << endl
+	//	<< "Number of Red Points: " << point_arr.size() << endl
+	//	<< "Number of Green Points: " << parcel_arr.size() << endl;
 
-	long start, stop;
-	start = clock();
-	// 4. Generate Total Number of Combinations
-	// PLEASE REMEMBER TO REMOVE THIS LINE OF CODE, IT GENERATES ALL POSSIBLE NUMBER OF CALCULATION NEEDED
-	// FOR DEBUGGING PURPOSE ONLY
+	//// 4. Generate Total Number of Combinations
+	//// PLEASE REMEMBER TO REMOVE THIS LINE OF CODE, IT GENERATES ALL POSSIBLE NUMBER OF CALCULATION NEEDED
+	//// FOR DEBUGGING PURPOSE ONLY
 
-	int total = gen_total_calculation(parcel_arr.size(), point_arr.size());
-	cout << endl << "Total Number of Calculations: " << formatLargeNum(total, ",") << endl;
+	//int total = gen_total_calculation(parcel_arr.size(), point_arr.size());
+	//cout << endl << "Total Number of Calculations: " << formatLargeNum(total, ",") << endl;
+
+	//long start, stop;
+	//start = clock();
 
 	// 5. Get Answer
-	Path ans = HeldKarp(adj_mat, parcel_arr, point_arr, name_arr);
+	Path ans = HeldKarpSingleThreaded(adj_mat, parcel_arr, point_arr, name_arr);
 
-	cout << ans.toString() << endl;
+	/*cout << ans.toString() << endl;
 	stop = clock();
 	cout << "Time Taken: " << stop - start << "ms" << endl;
 
+	system("pause");*/
+
 	// 6. Output Solution
-	/*ofstream outFile("solution.txt");
+	ofstream outFile("solution.txt");
 	ans.printPath(outFile);
-	outFile.close();*/
+	outFile.close();
 
 	return 0;
 }
@@ -379,6 +378,7 @@ Path minPath(Path pth1, Path pth2) {
 	return (pth1.cost < pth2.cost) ? pth1 : pth2;
 }
 
+// This Function is based on Eucildean Distance between 2 points
 double distance(Point p1, Point p2) {
 	return sqrt(pow(p1.x - p2.x, 2) + pow(p1.y - p2.y, 2));
 }
@@ -415,6 +415,13 @@ vector<vector<double>> create_adj_mat(vector<Point> pt_arr) {
 		y_ind = 0;
 
 		for (Point pt2 : pt_arr) {
+			// We set the values to infinity for 4 possible combinations
+			// Depot => Point
+			// Point => Point
+			// Parcel => Parcel
+			// Parcel => Depot
+			// This is because if any of the subset violates this condition, it is confirmed to not be the shortest path
+			// Therefore, initializing these values as infinity helps to reduce the problem search space.
 			flag = pt.name == pt2.name
 				|| (containsSubStr(pt.name, "Depot") && containsSubStr(pt2.name, "Point"))
 				|| (containsSubStr(pt.name, "Point") && containsSubStr(pt2.name, "Point"))
@@ -467,6 +474,9 @@ string formatLargeNum(int v, string delim) {
 }
 
 // Combination Without Duplicate => Self Written
+// This function is used to generate combinations of a vector
+// For example, given vector[1, 3, 5] and size 2
+// The function will produce {[1, 3], [1, 5], [3, 5]}. The size of Combs will be 3C2 respectively.
 vector<vector<int>> combinations(vector<int> col_list, int r) {
 	vector<vector<int>> combs;
 
@@ -506,11 +516,8 @@ vector<vector<int>> combinations(vector<int> col_list, int r) {
 int binomialCoeff(int n, int k)
 {
 	vector<int> C(k + 1, 0);
-
 	C[0] = 1; // nC0 is 1
-
-	for (int i = 1; i <= n; i++)
-	{
+	for (int i = 1; i <= n; i++){
 		for (int j = min(i, k); j > 0; j--) {
 			C[j] = C[j] + C[j - 1];
 		}
@@ -524,17 +531,13 @@ int gen_total_calculation(int gN, int rN) {
 	int ans = 0;
 
 	// 1 x 1
-	// cout << gN << "C1 * " << rN << "C1" << endl;
-	// cout << endl;
 	ans += gN * rN;
 
 	// 2 * 1, 2 * 2, 3 * 1, .... k * (l - 1) , k * l
 	for (int k = 2; k < rN + 1; k++) {
 		for (int l = k - 1; l < k + 1; l++) {
-			// cout << gN << "C" << k <<" * " << rN << "C" << l << endl;
 			ans += binomialCoeff(gN, k) * binomialCoeff(rN, l);
 		}
 	}
-
 	return ans;
 }

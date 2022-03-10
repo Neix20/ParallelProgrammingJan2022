@@ -1,17 +1,28 @@
 //#include <set>
 //#include <ctime>
+//#include <mutex>
 //#include <cmath>
 //#include <limits>
 //#include <string>
 //#include <vector>
+//#include <thread>
+//#include <future>
 //#include <sstream>
 //#include <fstream>
 //#include <iostream>
 //#include <algorithm>
 //#include <unordered_map> 
+//#include <concurrent_unordered_map.h>
 //using namespace std;
+//using namespace Concurrency;
 //
 //const double inf = numeric_limits<double>::infinity();
+//
+//// Number of Processors
+//const auto processor_count = thread::hardware_concurrency();
+//
+//// Global Variable
+//concurrent_unordered_map<string, pair <double, unsigned int>> c_hash_map;
 //
 //struct Point {
 //	string name;
@@ -528,14 +539,18 @@
 //
 //// Held-Karp Algorithm
 //// Uses bitmask Backtracking to make algorithm Run Faster
-//Path oneHeldKarp2(vector<vector<double>> distance, vector<int> parcel_arr, vector<int> point_arr, vector<string> name_arr) {
-//	const int n = distance.size(), gN = parcel_arr.size(), rN = point_arr.size();
+//Path HeldKarpSingleThreaded(vector<vector<double>> adj_mat, vector<int> parcel_arr, vector<int> point_arr, vector<string> name_arr) {
+//	const int n = adj_mat.size(), gN = parcel_arr.size(), rN = point_arr.size();
 //
 //	// Maps each subset of the nodes to the cost to reach that subset, as well
 //	// as what node it passed before reaching this subset.
 //	// Node subsets are represented as set bits.
 //	unordered_map<string, pair <double, unsigned int>> umap;
+//
+//	int subset_size = gen_total_calculation(parcel_arr.size(), point_arr.size());
 //	vector<SubsetObj> subset_arr; // Generate Subset Array
+//	subset_arr.reserve(subset_size);
+//
 //	vector<int> route_arr, subset1, subset2;
 //	string key;
 //	unsigned long bits, prev;
@@ -544,16 +559,14 @@
 //	// Set transition cost from initial state
 //	for (int k : parcel_arr) {
 //		key = to_string(1 << k) + to_string(k); //key as string
-//		umap[key] = make_pair(distance[0][k], 0);
+//		umap[key] = make_pair(adj_mat[0][k], 0);
 //
 //		vector<int> gSubset = { k };
 //
 //		for (int l : point_arr) {
 //			vector<int> rSubset = { l };
 //
-//			SubsetObj obj = SubsetObj(gSubset, rSubset);
-//
-//			subset_arr.push_back(obj);
+//			subset_arr.emplace_back(SubsetObj(gSubset, rSubset));
 //		}
 //	}
 //
@@ -570,15 +583,11 @@
 //
 //			for (int l = k - 1; l < k + 1; l++) {
 //
-//				/*vector<vector<int>> rSubsetArr = combinations(point_arr, l);*/
-//
 //				vector<vector<int>> rSubsetArr = point_comb_arr[l - 1];
 //
 //				for (vector<int> rSubset : rSubsetArr) {
 //
-//					SubsetObj obj = SubsetObj(gSubset, rSubset);
-//
-//					subset_arr.push_back(obj);
+//					subset_arr.emplace_back(SubsetObj(gSubset, rSubset));
 //
 //					if ((l + k) == 2 * rN) {
 //						bits = 0;
@@ -598,17 +607,123 @@
 //		}
 //	}
 //
-//	// Sort SubsetObj by Size of Subset
-//	/*sort(subset_arr.begin(), subset_arr.end(), [](SubsetObj& a, SubsetObj& b) {
-//		return a.size < b.size;
-//	});*/
-//
 //	bits = 0;
 //	double opt = inf, tmp_opt = 0;
 //	int parent = 0;
 //
 //	// Iterate subsets of increasing length and store intermediate results in classic dynamic programming manner
-//	// 1. Loop
+//	for (SubsetObj obj : subset_arr) {
+//		bits = 0;
+//
+//		for (int bit : obj.parcel_arr) {
+//			bits |= 1 << bit;
+//		}
+//
+//		for (int bit : obj.point_arr) {
+//			bits |= 1 << bit;
+//		}
+//
+//		if (obj.parcel_arr.size() == obj.point_arr.size()) {
+//			// The last node FROM THE PREVIOUS SUBSET will be a green point
+//			subset2 = obj.parcel_arr;
+//		}
+//		else {
+//			// The last node FROM THE PREVIOUS SUBSET will be a red point
+//			subset2 = obj.point_arr;
+//		}
+//
+//		subset1 = vector<int>(obj.size);
+//
+//		int ind = 0;
+//
+//		for (int elem : obj.parcel_arr) {
+//			subset1[ind++] = elem;
+//		}
+//
+//		for (int elem : obj.point_arr) {
+//			subset1[ind++] = elem;
+//		}
+//
+//		// Find the lowest cost to get to this subset
+//		for (int k : subset1) {
+//			prev = bits & ~(1 << k);
+//
+//			opt = inf;
+//			parent = -1;
+//			flag = false;
+//
+//			for (int m : subset2) {
+//				key = to_string(prev) + to_string(m); // key prev
+//
+//				// Check if Key exist in our Map
+//				if (umap.find(key) != umap.end()) {
+//					flag = true;
+//
+//					tmp_opt = umap.at(key).first + adj_mat[m][k];
+//
+//					// Replace Value if Current Cost is smaller than Best Cost
+//					if (tmp_opt <= opt) {
+//						opt = tmp_opt;
+//						parent = m;
+//					}
+//				}
+//			}
+//
+//			if (flag) {
+//				key = to_string(bits) + to_string(k);
+//				umap[key] = make_pair(opt, parent);
+//			}
+//		}
+//	}
+//
+//	// Initialize Value
+//	opt = inf;
+//	tmp_opt = 0;
+//	parent = 0;
+//	bits = 0;
+//
+//	// Get All Possible Final Paths (E.g. [1 2 3 4], [1 2 4 5], [2 3 4 5])
+//	for (int route_bits : route_arr) {
+//		for (int k : point_arr) {
+//
+//			key = to_string(route_bits) + to_string(k); // Prev Key
+//			tmp_opt = umap.at(key).first + adj_mat[k][0];
+//
+//			// Replace Value if Current Cost is smaller than Best Cost
+//			if (tmp_opt <= opt) {
+//				opt = tmp_opt;
+//				parent = k;
+//				bits = route_bits;
+//			}
+//		}
+//	}
+//
+//	// Backtrack to find full path
+//	vector<string> path(2 * rN + 2, "Depot");
+//
+//	for (int i = 2 * rN; i > 0; i--) {
+//		// Map Path Index-Element to Col List Index-Element
+//		path[i] = name_arr[parent];
+//
+//		key = to_string(bits) + to_string(parent);
+//
+//		bits = bits & ~(1 << parent);
+//
+//		parent = umap.at(key).second;
+//	}
+//
+//	return Path(path, opt);
+//}
+//
+//void parallelHeldKarpMap(vector<vector<double>> adj_mat, vector<SubsetObj> subset_arr) {
+//	vector<int> subset1, subset2;
+//	string key;
+//	unsigned long bits, prev;
+//	bool flag;
+//
+//	double opt = inf, tmp_opt = 0;
+//	int parent = 0;
+//
 //	for (SubsetObj obj : subset_arr) {
 //		bits = 0;
 //
@@ -652,11 +767,9 @@
 //			for (int m : subset2) {
 //				key = to_string(prev) + to_string(m); // key prev
 //
-//				// Check if Key exist in our Map
-//				if (umap.count(key)) {
+//				if (c_hash_map.find(key) != c_hash_map.end()) { // Not Thread Safe
 //					flag = true;
-//
-//					tmp_opt = umap[key].first + distance[m][k];
+//					tmp_opt = c_hash_map.at(key).first + adj_mat[m][k];
 //
 //					// Replace Value if Current Cost is smaller than Best Cost
 //					if (tmp_opt <= opt) {
@@ -668,76 +781,31 @@
 //
 //			if (flag) {
 //				key = to_string(bits) + to_string(k);
-//				umap[key] = make_pair(opt, parent);
+//				c_hash_map[key] = make_pair(opt, parent); // Not Thread Safe
 //			}
 //		}
 //	}
-//
-//	// Initialize Value
-//	opt = inf;
-//	tmp_opt = 0;
-//	parent = 0;
-//	bits = 0;
-//
-//	// Get All Possible Final Paths (E.g. [1 2 3 4], [1 2 4 5], [2 3 4 5])
-//	for (int route_bits : route_arr) {
-//		for (int k : point_arr) {
-//
-//			key = to_string(route_bits) + to_string(k); // Prev Key
-//			tmp_opt = umap[key].first + distance[k][0];
-//
-//			// Replace Value if Current Cost is smaller than Best Cost
-//			if (tmp_opt <= opt) {
-//				opt = tmp_opt;
-//				parent = k;
-//				bits = route_bits;
-//			}
-//		}
-//	}
-//
-//	// Backtrack to find full path
-//	vector<string> path(2 * rN + 2, "Depot");
-//
-//	for (int i = 2 * rN; i > 0; i--) {
-//		// Map Path Index-Element to Col List Index-Element
-//		path[i] = name_arr[parent];
-//
-//		key = to_string(bits) + to_string(parent);
-//
-//		bits = bits & ~(1 << parent);
-//
-//		parent = umap[key].second;
-//	}
-//
-//	return Path(path, opt);
 //}
 //
-//Path oneHeldKarp(vector<vector<double>> adj_mat, vector<int> parcel_arr, vector<int> point_arr, vector<string> name_arr) {
-//	int total = gen_total_calculation(parcel_arr.size(), point_arr.size());
-//	cout << "Total Number of Calculations: " << formatLargeNum(total, ",") << endl;
-//
-//	// Get Answer
-//	return oneHeldKarp2(adj_mat, parcel_arr, point_arr, name_arr);
-//}
-//
-//Path oneHeldKarpArr2(vector<vector<double>> adj_mat, vector<int> parcel_arr, vector<int> point_arr, vector<string> name_arr) {
+//// Held-Karp Algorithm
+//// Uses bitmask Backtracking to make algorithm Run Faster
+//Path HeldKarpMultiThreaded(vector<vector<double>> adj_mat, vector<int> parcel_arr, vector<int> point_arr, vector<string> name_arr) {
 //	const int n = adj_mat.size(), gN = parcel_arr.size(), rN = point_arr.size();
 //
 //	// Maps each subset of the nodes to the cost to reach that subset, as well
 //	// as what node it passed before reaching this subset.
 //	// Node subsets are represented as set bits.
-//	unordered_map<string, pair <double, unsigned int>> umap;
 //	vector<vector<SubsetObj>> subset_arr(2 * rN, vector<SubsetObj>()); // Generate 2D Subset Array of increasing length
-//	vector<int> route_arr, subset1, subset2;
+//	vector<int> route_arr;
 //	string key;
-//	unsigned long bits, prev;
+//	unsigned long bits;
 //	bool flag;
 //
 //	// Set transition cost from initial state
 //	for (int k : parcel_arr) {
 //
 //		key = to_string(1 << k) + to_string(k); //key as string
-//		umap[key] = make_pair(adj_mat[0][k], 0);
+//		c_hash_map[key] = make_pair(adj_mat[0][k], 0);
 //
 //		vector<int> gSubset = { k };
 //
@@ -789,82 +857,43 @@
 //		}
 //	}
 //
-//	bits = 0;
-//	double opt = inf, tmp_opt = 0;
-//	int parent = 0;
-//
 //	// Iterate subsets of increasing length and store intermediate results in classic dynamic programming manner
 //	// 1. Loop
+//	int cur_size = 0;
+//	int num_of_core = processor_count; // Set Number of Cores Here
+//	vector<future<void>> async_arr;
+//	// vector<thread> thread_arr;
 //	for (vector<SubsetObj> arr : subset_arr) {
-//		for (SubsetObj obj : arr) {
-//			bits = 0;
+//		cur_size = arr.size();
 //
-//			for (int bit : obj.parcel_arr) {
-//				bits |= 1 << bit;
-//			}
-//
-//			for (int bit : obj.point_arr) {
-//				bits |= 1 << bit;
-//			}
-//
-//			if (obj.parcel_arr.size() == obj.point_arr.size()) {
-//				// The last node FROM THE PREVIOUS SUBSET will be a green point
-//				subset2 = obj.parcel_arr;
-//			}
-//			else {
-//				// The last node FROM THE PREVIOUS SUBSET will be a red point
-//				subset2 = obj.point_arr;
-//			}
-//
-//			subset1 = vector<int>(obj.size, 0);
-//
-//			int ind = 0;
-//
-//			for (int elem : obj.parcel_arr) {
-//				subset1[ind++] = elem;
-//			}
-//
-//			for (int elem : obj.point_arr) {
-//				subset1[ind++] = elem;
-//			}
-//
-//			// Find the lowest cost to get to this subset
-//			for (int k : subset1) {
-//				prev = bits & ~(1 << k);
-//
-//				opt = inf;
-//				parent = -1;
-//				flag = false;
-//
-//				for (int m : subset2) {
-//					key = to_string(prev) + to_string(m); // key prev
-//
-//					// Check if Key exist in our Map
-//					if (umap.count(key)) {
-//						flag = true;
-//
-//						tmp_opt = umap[key].first + adj_mat[m][k];
-//
-//						// Replace Value if Current Cost is smaller than Best Cost
-//						if (tmp_opt <= opt) {
-//							opt = tmp_opt;
-//							parent = m;
-//						}
-//					}
-//				}
-//
-//				if (flag) {
-//					key = to_string(bits) + to_string(k);
-//					umap[key] = make_pair(opt, parent);
-//				}
-//			}
+//		// Dynamic [Thread Method]
+//		/*for (int i = 0; i < num_of_core; i++) {
+//			thread_arr.emplace_back(thread(parallelHeldKarpMap, adj_mat, vector<SubsetObj>(arr.begin() + i * cur_size / num_of_core, arr.begin() + (i + 1) * cur_size / num_of_core)));
 //		}
+//
+//		for (auto& th : thread_arr) {
+//			if (th.joinable()) th.join();
+//		}*/
+//
+//		// Dynamic [Async Method]
+//		for (int i = 0; i < num_of_core; i++) {
+//			async_arr.emplace_back(async(parallelHeldKarpMap, adj_mat, vector<SubsetObj>(arr.begin() + i * cur_size / num_of_core, arr.begin() + (i + 1) * cur_size / num_of_core)));
+//		}
+//
+//		for (auto& action : async_arr) {
+//			action.wait();
+//		}
+//
+//		// Hard Code
+//		// auto f1 = async(parallelHeldKarpMap, adj_mat, vector<SubsetObj>(arr.begin() + 0 * cur_size / 4, arr.begin() + 1 * cur_size / 4));
+//		// auto f2 = async(parallelHeldKarpMap, adj_mat, vector<SubsetObj>(arr.begin() + 1 * cur_size / 4, arr.begin() + 2 * cur_size / 4));
+//		// auto f3 = async(parallelHeldKarpMap, adj_mat, vector<SubsetObj>(arr.begin() + 2 * cur_size / 4, arr.begin() + 3 * cur_size / 4));
+//		// auto f4 = async(parallelHeldKarpMap, adj_mat, vector<SubsetObj>(arr.begin() + 3 * cur_size / 4, arr.begin() + 4 * cur_size / 4));
 //	}
 //
 //	// Initialize Value
-//	opt = inf;
-//	tmp_opt = 0;
-//	parent = 0;
+//	double opt = inf, tmp_opt = 0;
+//	int parent = 0;
 //	bits = 0;
 //
 //	// Get All Possible Final Paths (E.g. [1 2 3 4], [1 2 4 5], [2 3 4 5])
@@ -872,7 +901,7 @@
 //		for (int k : point_arr) {
 //
 //			key = to_string(route_bits) + to_string(k); // Prev Key
-//			tmp_opt = umap[key].first + adj_mat[k][0];
+//			tmp_opt = c_hash_map.at(key).first + adj_mat[k][0];
 //
 //			// Replace Value if Current Cost is smaller than Best Cost
 //			if (tmp_opt <= opt) {
@@ -894,18 +923,10 @@
 //
 //		bits = bits & ~(1 << parent);
 //
-//		parent = umap[key].second;
+//		parent = c_hash_map.at(key).second;
 //	}
 //
 //	return Path(path, opt);
-//}
-//
-//Path oneHeldKarpArr(vector<vector<double>> adj_mat, vector<int> parcel_arr, vector<int> point_arr, vector<string> name_arr) {
-//	int total = gen_total_calculation(parcel_arr.size(), point_arr.size());
-//	cout << "Total Number of Calculations: " << formatLargeNum(total, ",") << endl;
-//
-//	// Get Answer
-//	return oneHeldKarpArr2(adj_mat, parcel_arr, point_arr, name_arr);
 //}
 //
 //int main() {
@@ -977,14 +998,14 @@
 //
 //	start = clock();
 //	cout << endl << "One Held Karp Method: " << endl;
-//	ans = oneHeldKarp(adj_mat, parcel_arr, point_arr, name_arr);
+//	ans = HeldKarpSingleThreaded(adj_mat, parcel_arr, point_arr, name_arr);
 //	cout << ans.toString() << endl;
 //	stop = clock();
 //	cout << "Time Taken: " << stop - start << "ms" << endl;
 //
 //	start = clock();
-//	cout << endl << "One Held Karp ArrayMethod: " << endl;
-//	ans = oneHeldKarpArr(adj_mat, parcel_arr, point_arr, name_arr);
+//	cout << endl << "One Held Karp Multi Threaded Method: " << endl;
+//	ans = HeldKarpMultiThreaded(adj_mat, parcel_arr, point_arr, name_arr);
 //	cout << ans.toString() << endl;
 //	stop = clock();
 //	cout << "Time Taken: " << stop - start << "ms" << endl;
