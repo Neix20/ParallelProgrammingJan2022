@@ -9,14 +9,14 @@
 #include <sstream>
 #include <fstream>
 #include <iostream>
-#include <algorithm>
-#include <unordered_map> 
+#include <unordered_map>
+
 using namespace std;
 
 const double inf = numeric_limits<double>::infinity();
 
-//may return 0 when not able to detect
-const auto processor_count = thread::hardware_concurrency();
+// Number of Processors
+const auto processor_count = std::thread::hardware_concurrency();
 
 struct Point {
 	string name;
@@ -173,12 +173,12 @@ void parallelHeldKarpMap(vector<vector<double>> adj_mat, vector<SubsetObj> subse
 
 			opt = inf;
 			parent = -1;
-			 flag = false;
+			flag = false;
 
 			for (int m : subset2) {
 				key = to_string(prev) + to_string(m); // key prev
 
-				if (umap.find(key) != umap.end()) {
+				if (umap.find(key) != umap.end()) { // Not Thread Safe
 					flag = true;
 					tmp_opt = umap.at(key).first + adj_mat[m][k];
 
@@ -192,9 +192,9 @@ void parallelHeldKarpMap(vector<vector<double>> adj_mat, vector<SubsetObj> subse
 
 			if (flag) {
 				key = to_string(bits) + to_string(k);
-				mtx.lock();
-				umap[key] = make_pair(opt, parent);
-				mtx.unlock();
+                mtx.lock();
+				umap[key] = make_pair(opt, parent); // Not Thread Safe
+                mtx.unlock();
 			}
 		}
 	}
@@ -273,33 +273,31 @@ Path HeldKarpMultiThreaded(vector<vector<double>> adj_mat, vector<int> parcel_ar
 	// Iterate subsets of increasing length and store intermediate results in classic dynamic programming manner
 	// 1. Loop
 	int cur_size = 0;
-    int num_of_core = processor_count; // Set Number of Cores Here
-    // vector<future<void>> thread_arr;
-	vector<thread> thread_arr;
+   int num_of_core = processor_count; // Set Number of Cores Here
+   vector<future<void>> async_arr;
+	// vector<thread> thread_arr;
 	for (vector<SubsetObj> arr : subset_arr) {
 		cur_size = arr.size();
 
-		// Dynamic [Thread]
-		for(int i = 0; i < num_of_core; i++){
-		    thread_arr.push_back(thread(parallelHeldKarpMap, adj_mat, vector<SubsetObj>(arr.begin() + i * cur_size / num_of_core, arr.begin() + (i + 1) * cur_size / num_of_core)));
+		// Dynamic [Thread Method]
+		/*for (int i = 0; i < num_of_core; i++) {
+			thread_arr.emplace_back(thread(parallelHeldKarpMap, adj_mat, vector<SubsetObj>(arr.begin() + i * cur_size / num_of_core, arr.begin() + (i + 1) * cur_size / num_of_core)));
 		}
 
 		for (auto& th : thread_arr) {
-		    if(th.joinable()) {
-				th.join();
-			}
-		}
+			if (th.joinable()) th.join();
+		}*/
 
-        // Dynamic [Async Method]
-        // for(int i = 0; i < num_of_core; i++){
-        //     thread_arr.emplace_back(async(parallelHeldKarpMap, adj_mat, vector<SubsetObj>(arr.begin() + i * cur_size / num_of_core, arr.begin() + (i + 1) * cur_size / num_of_core)));
-        // }
+       // Dynamic [Async Method]
+       for(int i = 0; i < num_of_core; i++){
+           async_arr.emplace_back(async(parallelHeldKarpMap, adj_mat, vector<SubsetObj>(arr.begin() + i * cur_size / num_of_core, arr.begin() + (i + 1) * cur_size / num_of_core)));
+       }
 
-        // for (auto& action : thread_arr) {
-        //     action.wait();
-        // }
+       for (auto& action : async_arr) {
+           action.wait();
+       }
 
-        // Hard Code
+       // Hard Code
 		// auto f1 = async(parallelHeldKarpMap, adj_mat, vector<SubsetObj>(arr.begin() + 0 * cur_size / 4, arr.begin() + 1 * cur_size / 4));
 		// auto f2 = async(parallelHeldKarpMap, adj_mat, vector<SubsetObj>(arr.begin() + 1 * cur_size / 4, arr.begin() + 2 * cur_size / 4));
 		// auto f3 = async(parallelHeldKarpMap, adj_mat, vector<SubsetObj>(arr.begin() + 2 * cur_size / 4, arr.begin() + 3 * cur_size / 4));

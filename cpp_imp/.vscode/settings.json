@@ -4,6 +4,7 @@
         "vector": "cpp",
         "utility": "cpp",
         "future": "cpp",
-        "thread": "cpp"
+        "thread": "cpp",
+        "unordered_map": "cpp"
     }
 }
