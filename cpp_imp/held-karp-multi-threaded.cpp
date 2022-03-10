@@ -15,6 +15,9 @@ using namespace std;
 
 const double inf = numeric_limits<double>::infinity();
 
+//may return 0 when not able to detect
+const auto processor_count = std::thread::hardware_concurrency();
+
 struct Point {
 	string name;
 	int x;
@@ -123,7 +126,7 @@ vector<vector<double>> create_adj_mat(vector<Point>);
 unordered_map<string, pair <double, unsigned int>> umap;
 mutex mtx;
 
-int parallelHeldKarpMap(vector<vector<double>> adj_mat, vector<SubsetObj> subset_arr) {
+void parallelHeldKarpMap(vector<vector<double>> adj_mat, vector<SubsetObj> subset_arr) {
 	vector<int> subset1, subset2;
 	string key;
 	unsigned long bits, prev;
@@ -175,9 +178,9 @@ int parallelHeldKarpMap(vector<vector<double>> adj_mat, vector<SubsetObj> subset
 			for (int m : subset2) {
 				key = to_string(prev) + to_string(m); // key prev
 
-				if (umap.count(key)) {
+				if (umap.find(key) != umap.end()) {
 					flag = true;
-					tmp_opt = umap[key].first + adj_mat[m][k];
+					tmp_opt = umap.at(key).first + adj_mat[m][k];
 
 					// Replace Value if Current Cost is smaller than Best Cost
 					if (tmp_opt <= opt) {
@@ -195,8 +198,6 @@ int parallelHeldKarpMap(vector<vector<double>> adj_mat, vector<SubsetObj> subset
 			}
 		}
 	}
-
-	return 0;
 }
 
 // Held-Karp Algorithm
@@ -272,12 +273,25 @@ Path HeldKarpMultiThreaded(vector<vector<double>> adj_mat, vector<int> parcel_ar
 	// Iterate subsets of increasing length and store intermediate results in classic dynamic programming manner
 	// 1. Loop
 	int cur_size = 0;
+    int num_of_core = processor_count; // Set Number of Cores Here
+    vector<future<void>> thread_arr;
 	for (vector<SubsetObj> arr : subset_arr) {
 		cur_size = arr.size();
-		auto f1 = async(parallelHeldKarpMap, adj_mat, vector<SubsetObj>(arr.begin(), arr.begin() + cur_size * 0.25));
-		auto f2 = async(parallelHeldKarpMap, adj_mat, vector<SubsetObj>(arr.begin() + cur_size * 0.25, arr.begin() + cur_size * 0.50));
-		auto f3 = async(parallelHeldKarpMap, adj_mat, vector<SubsetObj>(arr.begin() + cur_size * 0.50, arr.begin() + cur_size * 0.75));
-		auto f4 = async(parallelHeldKarpMap, adj_mat, vector<SubsetObj>(arr.begin() + cur_size * 0.75, arr.end()));
+
+        // Dynamic
+        for(int i = 0; i < num_of_core; i++){
+            thread_arr.emplace_back(async(parallelHeldKarpMap, adj_mat, vector<SubsetObj>(arr.begin() + i * cur_size / num_of_core, arr.begin() + (i + 1) * cur_size / num_of_core)));
+        }
+
+        for (auto& action : thread_arr) {
+            action.wait();
+        }
+
+        // Hard Code
+		// auto f1 = async(parallelHeldKarpMap, adj_mat, vector<SubsetObj>(arr.begin() + 0 * cur_size / 4, arr.begin() + 1 * cur_size / 4));
+		// auto f2 = async(parallelHeldKarpMap, adj_mat, vector<SubsetObj>(arr.begin() + 1 * cur_size / 4, arr.begin() + 2 * cur_size / 4));
+		// auto f3 = async(parallelHeldKarpMap, adj_mat, vector<SubsetObj>(arr.begin() + 2 * cur_size / 4, arr.begin() + 3 * cur_size / 4));
+		// auto f4 = async(parallelHeldKarpMap, adj_mat, vector<SubsetObj>(arr.begin() + 3 * cur_size / 4, arr.begin() + 4 * cur_size / 4));
 	}
 
 	// Initialize Value
@@ -290,7 +304,7 @@ Path HeldKarpMultiThreaded(vector<vector<double>> adj_mat, vector<int> parcel_ar
 		for (int k : point_arr) {
 
 			key = to_string(route_bits) + to_string(k); // Prev Key
-			tmp_opt = umap[key].first + adj_mat[k][0];
+			tmp_opt = umap.at(key).first + adj_mat[k][0];
 
 			// Replace Value if Current Cost is smaller than Best Cost
 			if (tmp_opt <= opt) {
@@ -312,7 +326,7 @@ Path HeldKarpMultiThreaded(vector<vector<double>> adj_mat, vector<int> parcel_ar
 
 		bits = bits & ~(1 << parent);
 
-		parent = umap[key].second;
+		parent = umap.at(key).second;
 	}
 
 	return Path(path, opt);
@@ -409,8 +423,6 @@ int main() {
 	cout << ans.toString() << endl;
 	stop = clock();
 	cout << "Time Taken: " << stop - start << "ms" << endl;
-
-	system("pause");
 
 	// 6. Output Solution
 	/*ofstream outFile("solution.txt");
