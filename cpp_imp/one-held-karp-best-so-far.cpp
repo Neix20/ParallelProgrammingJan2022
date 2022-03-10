@@ -351,15 +351,14 @@ int main() {
 		<< "Number of Red Points: " << point_arr.size() << endl
 		<< "Number of Green Points: " << parcel_arr.size() << endl;
 
+	long start, stop;
+	start = clock();
 	// 4. Generate Total Number of Combinations
 	// PLEASE REMEMBER TO REMOVE THIS LINE OF CODE, IT GENERATES ALL POSSIBLE NUMBER OF CALCULATION NEEDED
 	// FOR DEBUGGING PURPOSE ONLY
 
 	int total = gen_total_calculation(parcel_arr.size(), point_arr.size());
 	cout << endl << "Total Number of Calculations: " << formatLargeNum(total, ",") << endl;
-
-	long start, stop;
-	start = clock();
 
 	// 5. Get Answer
 	Path ans = HeldKarp(adj_mat, parcel_arr, point_arr, name_arr);
