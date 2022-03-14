@@ -1,19 +1,27 @@
 ﻿  one-held-karp-best-so-far.cpp
-D:\Github\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\one-held-karp-best-so-far.cpp(77,1): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-D:\Github\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\one-held-karp-best-so-far.cpp(122,30): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\Github\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\one-held-karp-best-so-far.cpp(122,30): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
-D:\Github\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\one-held-karp-best-so-far.cpp(122,54): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\Github\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\one-held-karp-best-so-far.cpp(122,54): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
-D:\Github\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\one-held-karp-best-so-far.cpp(122,77): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\Github\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\one-held-karp-best-so-far.cpp(122,77): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
-D:\Github\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\one-held-karp-best-so-far.cpp(129,77): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Github\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\one-held-karp-best-so-far.cpp(81,1): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+D:\Github\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\one-held-karp-best-so-far.cpp(131,30): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\Github\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\one-held-karp-best-so-far.cpp(131,30): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
+D:\Github\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\one-held-karp-best-so-far.cpp(131,54): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\Github\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\one-held-karp-best-so-far.cpp(131,54): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
+D:\Github\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\one-held-karp-best-so-far.cpp(131,77): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\Github\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\one-held-karp-best-so-far.cpp(131,77): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
+D:\Github\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\one-held-karp-best-so-far.cpp(138,87): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Github\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\one-held-karp-best-so-far.cpp(166,54): warning C4334: '<<': result of 32-bit shift implicitly converted to 64 bits (was 64-bit shift intended?)
+D:\Github\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\one-held-karp-best-so-far.cpp(170,54): warning C4334: '<<': result of 32-bit shift implicitly converted to 64 bits (was 64-bit shift intended?)
+D:\Github\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\one-held-karp-best-so-far.cpp(201,56): warning C4334: '<<': result of 32-bit shift implicitly converted to 64 bits (was 64-bit shift intended?)
+D:\Github\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\one-held-karp-best-so-far.cpp(205,56): warning C4334: '<<': result of 32-bit shift implicitly converted to 64 bits (was 64-bit shift intended?)
+D:\Github\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\one-held-karp-best-so-far.cpp(237,53): warning C4334: '<<': result of 32-bit shift implicitly converted to 64 bits (was 64-bit shift intended?)
+D:\Github\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\one-held-karp-best-so-far.cpp(242,53): warning C4334: '<<': result of 32-bit shift implicitly converted to 64 bits (was 64-bit shift intended?)
+D:\Github\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\one-held-karp-best-so-far.cpp(247,57): warning C4334: '<<': result of 32-bit shift implicitly converted to 64 bits (was 64-bit shift intended?)
+D:\Github\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\one-held-karp-best-so-far.cpp(305,61): warning C4334: '<<': result of 32-bit shift implicitly converted to 64 bits (was 64-bit shift intended?)
 D:\Github\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\one-held-karp-best-so-far.cpp(397,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
 D:\Github\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\one-held-karp-best-so-far.cpp(413,41): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\Github\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\one-held-karp-best-so-far.cpp(469,2): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\Github\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\one-held-karp-best-so-far.cpp(480,27): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\Github\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\one-held-karp-best-so-far.cpp(476,2): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\Github\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\one-held-karp-best-so-far.cpp(490,27): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
   Generating code
-  19 of 910 functions ( 2.1%) were compiled, the rest were copied from previous compilation.
+  17 of 933 functions ( 1.8%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    73 functions had inline decision re-evaluated but remain unchanged
+    66 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   TSP-Solver.vcxproj -> D:\Github\ParallelProgrammingJan2022\TSP-Solver\x64\Release\TSP-Solver.exe

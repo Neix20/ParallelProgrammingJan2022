@@ -982,7 +982,7 @@
 //
 //	Path ans;
 //
-//	/*start = clock();
+//	start = clock();
 //	cout << endl << "Combination Shit Method: " << endl;
 //	ans = combination_shit(adj_mat, parcel_arr, point_arr, name_arr);
 //	cout << ans.toString() << endl;
@@ -994,7 +994,7 @@
 //	ans = multiHeldKarpShit(adj_mat, parcel_arr, point_arr, name_arr);
 //	cout << ans.toString() << endl;
 //	stop = clock();
-//	cout << "Time Taken: " << stop - start << "ms" << endl;*/
+//	cout << "Time Taken: " << stop - start << "ms" << endl;
 //
 //	start = clock();
 //	cout << endl << "One Held Karp Method: " << endl;
@@ -1003,12 +1003,12 @@
 //	stop = clock();
 //	cout << "Time Taken: " << stop - start << "ms" << endl;
 //
-//	start = clock();
+//	/*start = clock();
 //	cout << endl << "One Held Karp Multi Threaded Method: " << endl;
 //	ans = HeldKarpMultiThreaded(adj_mat, parcel_arr, point_arr, name_arr);
 //	cout << ans.toString() << endl;
 //	stop = clock();
-//	cout << "Time Taken: " << stop - start << "ms" << endl;
+//	cout << "Time Taken: " << stop - start << "ms" << endl;*/
 //
 //	system("pause");
 //
