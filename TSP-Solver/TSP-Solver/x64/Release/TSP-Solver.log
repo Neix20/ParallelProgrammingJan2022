@@ -1,40 +1,19 @@
-﻿  for-debugging.cpp
-C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\for-debugging.cpp(93,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\for-debugging.cpp(114,1): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\for-debugging.cpp(147,41): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\for-debugging.cpp(234,27): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\for-debugging.cpp(270,2): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\for-debugging.cpp(320,64): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\for-debugging.cpp(321,60): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\for-debugging.cpp(323,48): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\for-debugging.cpp(367,31): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\for-debugging.cpp(367,31): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
-C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\for-debugging.cpp(443,25): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\for-debugging.cpp(467,38): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\for-debugging.cpp(543,30): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\for-debugging.cpp(543,30): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
-C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\for-debugging.cpp(543,54): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\for-debugging.cpp(543,54): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
-C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\for-debugging.cpp(543,77): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\for-debugging.cpp(543,77): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
-C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\for-debugging.cpp(550,87): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\for-debugging.cpp(807,30): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\for-debugging.cpp(807,30): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
-C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\for-debugging.cpp(807,54): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\for-debugging.cpp(807,54): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
-C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\for-debugging.cpp(807,77): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\for-debugging.cpp(807,77): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
-C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\for-debugging.cpp(881,24): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\for-debugging.cpp(816,7): warning C4101: 'flag': unreferenced local variable
-C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\for-debugging.cpp(949,30): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\for-debugging.cpp(949,30): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
-C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\for-debugging.cpp(949,54): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\for-debugging.cpp(949,54): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
-C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\for-debugging.cpp(949,77): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\for-debugging.cpp(949,77): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
-C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\for-debugging.cpp(956,87): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+﻿  one-held-karp-best-so-far.cpp
+C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\one-held-karp-best-so-far.cpp(81,1): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\one-held-karp-best-so-far.cpp(131,30): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\one-held-karp-best-so-far.cpp(131,30): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
+C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\one-held-karp-best-so-far.cpp(131,54): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\one-held-karp-best-so-far.cpp(131,54): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
+C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\one-held-karp-best-so-far.cpp(131,77): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\one-held-karp-best-so-far.cpp(131,77): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
+C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\one-held-karp-best-so-far.cpp(138,87): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\one-held-karp-best-so-far.cpp(397,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\one-held-karp-best-so-far.cpp(413,41): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\one-held-karp-best-so-far.cpp(476,2): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\one-held-karp-best-so-far.cpp(490,27): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
   Generating code
-  Previous IPDB and IOBJ mismatch, fall back to full compilation.
-  All 1687 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  17 of 940 functions ( 1.8%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    66 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   TSP-Solver.vcxproj -> C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\x64\Release\TSP-Solver.exe

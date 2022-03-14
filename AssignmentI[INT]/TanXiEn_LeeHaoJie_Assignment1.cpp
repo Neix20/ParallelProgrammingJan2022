@@ -349,29 +349,29 @@ int main() {
 	vector<int> parcel_arr = create_parcel_arr(pt_arr);
 	vector<int> point_arr = create_point_arr(pt_arr);
 
-	cout << "Total Number of Points: " << pt_arr.size() << endl
-		<< "Depot: 1" << endl
-		<< "Number of Red Points: " << point_arr.size() << endl
-		<< "Number of Green Points: " << parcel_arr.size() << endl;
+	//cout << "Total Number of Points: " << pt_arr.size() << endl
+	//	<< "Depot: 1" << endl
+	//	<< "Number of Red Points: " << point_arr.size() << endl
+	//	<< "Number of Green Points: " << parcel_arr.size() << endl;
 
-	// 4. Generate Total Number of Combinations
-	// PLEASE REMEMBER TO REMOVE THIS LINE OF CODE, IT GENERATES ALL POSSIBLE NUMBER OF CALCULATION NEEDED
-	// FOR DEBUGGING PURPOSE ONLY
+	//// 4. Generate Total Number of Combinations
+	//// PLEASE REMEMBER TO REMOVE THIS LINE OF CODE, IT GENERATES ALL POSSIBLE NUMBER OF CALCULATION NEEDED
+	//// FOR DEBUGGING PURPOSE ONLY
 
-	int total = gen_total_calculation(parcel_arr.size(), point_arr.size());
-	cout << endl << "Total Number of Calculations: " << formatLargeNum(total, ",") << endl;
+	//int total = gen_total_calculation(parcel_arr.size(), point_arr.size());
+	//cout << endl << "Total Number of Calculations: " << formatLargeNum(total, ",") << endl;
 
-	long start, stop;
-	start = clock();
+	//long start, stop;
+	//start = clock();
 
 	// 5. Get Answer
 	Path ans = HeldKarpSingleThreadedInt(adj_mat, parcel_arr, point_arr, name_arr);
 
-	cout << ans.toString() << endl;
+	/*cout << ans.toString() << endl;
 	stop = clock();
 	cout << "Time Taken: " << stop - start << "ms" << endl;
 
-	system("pause");
+	system("pause");*/
 
 	// 6. Output Solution
 	ofstream outFile("solution.txt");
