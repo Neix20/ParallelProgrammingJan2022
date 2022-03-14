@@ -127,7 +127,7 @@ Path minPath(Path, Path);
 
 // Held-Karp Algorithm
 // Uses bitmask Backtracking to make algorithm Run Faster
-Path HeldKarpSingleThreaded(vector<vector<double>> adj_mat, vector<int> parcel_arr, vector<int> point_arr, vector<string> name_arr) {
+Path HeldKarpSingleThreadedInt(vector<vector<double>> adj_mat, vector<int> parcel_arr, vector<int> point_arr, vector<string> name_arr) {
 	const int n = adj_mat.size(), gN = parcel_arr.size(), rN = point_arr.size();
 
 	// Maps each subset of the nodes to the cost to reach that subset, as well
@@ -163,11 +163,11 @@ Path HeldKarpSingleThreaded(vector<vector<double>> adj_mat, vector<int> parcel_a
 				bits = 0;
 
 				for (int bit : gSubset) {
-					bits |= static_cast<unsigned long long>(1 << bit);
+					bits |= ((unsigned long long) 1 << bit);
 				}
 
 				for (int bit : rSubset) {
-					bits |= static_cast<unsigned long long>(1 << bit);
+					bits |= ((unsigned long long) 1 << bit);
 				}
 
 				route_arr.push_back(bits);
@@ -198,11 +198,11 @@ Path HeldKarpSingleThreaded(vector<vector<double>> adj_mat, vector<int> parcel_a
 						bits = 0;
 
 						for (int bit : gSubset) {
-							bits |= static_cast<unsigned long long>(1 << bit);
+							bits |= ((unsigned long long) 1 << bit);
 						}
 
 						for (int bit : rSubset) {
-							bits |= static_cast<unsigned long long>(1 << bit);
+							bits |= ((unsigned long long) 1 << bit);
 						}
 
 						route_arr.push_back(bits);
@@ -234,24 +234,24 @@ Path HeldKarpSingleThreaded(vector<vector<double>> adj_mat, vector<int> parcel_a
 
 		for (int elem : obj.parcel_arr) {
 			subset1[ind++] = elem;
-			bits |= static_cast<unsigned long long>(1 << elem);
+			bits |= ((unsigned long long) 1 << elem);
 		}
 
 		for (int elem : obj.point_arr) {
 			subset1[ind++] = elem;
-			bits |= static_cast<unsigned long long>(1 << elem);
+			bits |= ((unsigned long long) 1 << elem);
 		}
 
 		// Find the lowest cost to get to this subset
 		for (int k : subset1) {
-			prev = bits & ~static_cast<unsigned long long>(1 << k);
+			prev = bits & ~((unsigned long long)1 << k);
 
 			opt = inf;
 			parent = -1;
 			flag = false;
 
 			for (int m : subset2) {
-				key = static_cast<unsigned long long>(prev * 100) + m; //key as string
+				key = prev * 100 + m; //key as string
 
 				// Check if Key exist in our Map
 				if (umap.find(key) != umap.end()) {
@@ -268,7 +268,7 @@ Path HeldKarpSingleThreaded(vector<vector<double>> adj_mat, vector<int> parcel_a
 			}
 
 			if (flag) {
-				key = static_cast<unsigned long long>(bits * 100) + k;
+				key = bits * 100 + k;
 				umap[key] = make_pair(opt, parent);
 			}
 		}
@@ -281,9 +281,9 @@ Path HeldKarpSingleThreaded(vector<vector<double>> adj_mat, vector<int> parcel_a
 	bits = 0;
 
 	// Get All Possible Final Paths (E.g. [1 2 3 4], [1 2 4 5], [2 3 4 5])
-	for (auto route_bits : route_arr) {
+	for (unsigned long long route_bits : route_arr) {
 		for (int k : point_arr) {
-			key = static_cast<unsigned long long>(route_bits * 100) + k;
+			key = route_bits * 100 + k;
 			tmp_opt = umap.at(key).first + adj_mat[k][0];
 
 			// Replace Value if Current Cost is smaller than Best Cost
@@ -301,8 +301,8 @@ Path HeldKarpSingleThreaded(vector<vector<double>> adj_mat, vector<int> parcel_a
 	for (int i = 2 * rN; i > 0; i--) {
 		// Map Path Index-Element to Col List Index-Element
 		path[i] = name_arr[parent];
-		key = static_cast<unsigned long long>(bits * 100) + parent;
-		bits = bits & ~static_cast<unsigned long long>(1 << parent);
+		key = bits * 100 + parent;
+		bits = bits & ~((unsigned long long)1 << parent);
 		parent = umap.at(key).second;
 	}
 
@@ -349,29 +349,29 @@ int main() {
 	vector<int> parcel_arr = create_parcel_arr(pt_arr);
 	vector<int> point_arr = create_point_arr(pt_arr);
 
-	//cout << "Total Number of Points: " << pt_arr.size() << endl
-	//	<< "Depot: 1" << endl
-	//	<< "Number of Red Points: " << point_arr.size() << endl
-	//	<< "Number of Green Points: " << parcel_arr.size() << endl;
+	cout << "Total Number of Points: " << pt_arr.size() << endl
+		<< "Depot: 1" << endl
+		<< "Number of Red Points: " << point_arr.size() << endl
+		<< "Number of Green Points: " << parcel_arr.size() << endl;
 
-	//// 4. Generate Total Number of Combinations
-	//// PLEASE REMEMBER TO REMOVE THIS LINE OF CODE, IT GENERATES ALL POSSIBLE NUMBER OF CALCULATION NEEDED
-	//// FOR DEBUGGING PURPOSE ONLY
+	// 4. Generate Total Number of Combinations
+	// PLEASE REMEMBER TO REMOVE THIS LINE OF CODE, IT GENERATES ALL POSSIBLE NUMBER OF CALCULATION NEEDED
+	// FOR DEBUGGING PURPOSE ONLY
 
-	//int total = gen_total_calculation(parcel_arr.size(), point_arr.size());
-	//cout << endl << "Total Number of Calculations: " << formatLargeNum(total, ",") << endl;
+	int total = gen_total_calculation(parcel_arr.size(), point_arr.size());
+	cout << endl << "Total Number of Calculations: " << formatLargeNum(total, ",") << endl;
 
-	//long start, stop;
-	//start = clock();
+	long start, stop;
+	start = clock();
 
 	// 5. Get Answer
-	Path ans = HeldKarpSingleThreaded(adj_mat, parcel_arr, point_arr, name_arr);
+	Path ans = HeldKarpSingleThreadedInt(adj_mat, parcel_arr, point_arr, name_arr);
 
-	/*cout << ans.toString() << endl;
+	cout << ans.toString() << endl;
 	stop = clock();
 	cout << "Time Taken: " << stop - start << "ms" << endl;
 
-	system("pause");*/
+	system("pause");
 
 	// 6. Output Solution
 	ofstream outFile("solution.txt");
