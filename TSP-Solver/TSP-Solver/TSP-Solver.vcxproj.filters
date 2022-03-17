@@ -39,6 +39,9 @@
     <ClCompile Include="split-vec.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="combination-threaded.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="tsp.txt">

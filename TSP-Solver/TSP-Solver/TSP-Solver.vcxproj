@@ -142,6 +142,7 @@
   <ItemGroup>
     <ClCompile Include="async-test.cpp" />
     <ClCompile Include="Combination-Shit.cpp" />
+    <ClCompile Include="combination-threaded.cpp" />
     <ClCompile Include="DFS-Shit.cpp" />
     <ClCompile Include="for-debugging.cpp" />
     <ClCompile Include="held-karp-multi-threaded.cpp" />

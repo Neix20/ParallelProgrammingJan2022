@@ -1,19 +1,11 @@
-﻿  one-held-karp-best-so-far.cpp
-C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\one-held-karp-best-so-far.cpp(81,1): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\one-held-karp-best-so-far.cpp(131,30): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\one-held-karp-best-so-far.cpp(131,30): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
-C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\one-held-karp-best-so-far.cpp(131,54): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\one-held-karp-best-so-far.cpp(131,54): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
-C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\one-held-karp-best-so-far.cpp(131,77): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\one-held-karp-best-so-far.cpp(131,77): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
-C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\one-held-karp-best-so-far.cpp(138,87): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\one-held-karp-best-so-far.cpp(397,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\one-held-karp-best-so-far.cpp(413,41): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\one-held-karp-best-so-far.cpp(476,2): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\one-held-karp-best-so-far.cpp(490,27): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+﻿  combination-threaded.cpp
+D:\Github\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\combination-threaded.cpp(17,1): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+D:\Github\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\combination-threaded.cpp(50,27): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\Github\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\combination-threaded.cpp(94,28): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\Github\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\combination-threaded.cpp(94,51): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
   Generating code
-  17 of 940 functions ( 1.8%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    66 functions had inline decision re-evaluated but remain unchanged
+  55 of 328 functions (16.8%) were compiled, the rest were copied from previous compilation.
+    20 functions were new in current compilation
+    17 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
-  TSP-Solver.vcxproj -> C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\x64\Release\TSP-Solver.exe
+  TSP-Solver.vcxproj -> D:\Github\ParallelProgrammingJan2022\TSP-Solver\x64\Release\TSP-Solver.exe

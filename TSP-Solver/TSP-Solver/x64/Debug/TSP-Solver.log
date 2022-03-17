@@ -1,0 +1,6 @@
+﻿  combination-threaded.cpp
+D:\Github\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\combination-threaded.cpp(16,1): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+D:\Github\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\combination-threaded.cpp(80,27): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\Github\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\combination-threaded.cpp(113,28): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\Github\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\combination-threaded.cpp(113,51): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  TSP-Solver.vcxproj -> D:\Github\ParallelProgrammingJan2022\TSP-Solver\x64\Debug\TSP-Solver.exe
