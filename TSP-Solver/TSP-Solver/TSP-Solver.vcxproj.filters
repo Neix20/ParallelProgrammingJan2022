@@ -42,6 +42,9 @@
     <ClCompile Include="combination-threaded.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Improved_Single_Threaded.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="tsp.txt">

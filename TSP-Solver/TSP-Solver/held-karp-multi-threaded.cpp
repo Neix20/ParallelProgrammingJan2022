@@ -111,7 +111,7 @@
 //const auto processor_count = std::thread::hardware_concurrency();
 //
 //// Global Variable
-//concurrent_unordered_map<unsigned long long, pair<double, unsigned int>> c_hash_map;
+//concurrent_unordered_map<long long, pair<double, int>> c_hash_map;
 //vector<vector<double>> adj_mat;
 //
 //Path minPath(Path, Path);
@@ -126,9 +126,20 @@
 //vector<vector<int>> combinations(vector<int>, int);
 //vector<vector<double>> create_adj_mat(vector<Point>);
 //
+//vector<SubsetObj> parallelGenerateCombinations(vector<vector<int>> parcel_comb_arr, vector<vector<int>>& point_comb_arr, int size) {
+//	vector<SubsetObj> subset_arr(size);
+//	int subset_ind(0);
+//	for (vector<int> gSubset : parcel_comb_arr) {
+//		for (vector<int> rSubset : point_comb_arr) {
+//			subset_arr[subset_ind++] = SubsetObj(gSubset, rSubset);
+//		}
+//	}
+//	return subset_arr;
+//}
+//
 //void parallelHeldKarpMap(vector<SubsetObj>& subset_arr) {
 //	vector<int> subset1, subset2;
-//	unsigned long long bits, prev, key;
+//	long long bits, prev, key;
 //	bool flag;
 //
 //	double opt = inf, tmp_opt = 0;
@@ -151,17 +162,17 @@
 //
 //		for (int elem : obj.parcel_arr) {
 //			subset1[ind++] = elem;
-//			bits |= ((unsigned long long) 1 << elem);
+//			bits |= ((long long) 1 << elem);
 //		}
 //
 //		for (int elem : obj.point_arr) {
 //			subset1[ind++] = elem;
-//			bits |= ((unsigned long long) 1 << elem);
+//			bits |= ((long long) 1 << elem);
 //		}
 //
 //		// Find the lowest cost to get to this subset
 //		for (int k : subset1) {
-//			prev = bits & ~((unsigned long long)1 << k);
+//			prev = bits & ~((long long)1 << k);
 //
 //			opt = inf;
 //			parent = -1;
@@ -199,104 +210,109 @@
 //	// as what node it passed before reaching this subset.
 //	// Node subsets are represented as set bits.
 //	vector<vector<SubsetObj>> subset_arr(2 * rN - 1); // Generate 2D Subset Array of increasing length
-//	vector<unsigned long long> route_arr;
-//	unsigned long long bits, key;
+//	vector<long long> route_arr;
+//	long long bits, key;
+//	int subset_ind(0);
 //
-//	long start, stop;
-//
-//	start = clock();
 //	// Set transition cost from initial state
 //	for (int k : parcel_arr) {
-//
-//		key = ((unsigned long long)1 << k) * 100 + k; //key as string
+//		key = ((long long)1 << k) * 100 + k; //key as string
 //		c_hash_map[key] = make_pair(adj_mat[0][k], 0);
-//
-//		vector<int> gSubset = { k };
-//
-//		for (int l : point_arr) {
-//			vector<int> rSubset = { l };
-//
-//			subset_arr[0].push_back(SubsetObj(gSubset, rSubset));
-//
-//			if (rN == 1) {
-//				bits = 0;
-//
-//				for (int bit : gSubset) {
-//					bits |= ((unsigned long long) 1 << bit);
-//				}
-//
-//				for (int bit : rSubset) {
-//					bits |= ((unsigned long long) 1 << bit);
-//				}
-//
-//				route_arr.push_back(bits);
-//			}
-//		}
 //	}
 //
+//	// Async Here
+//	vector<vector<vector<int>>> parcel_comb_arr(rN);
+//	for (int k = 1; k < rN + 1; k++) {
+//		parcel_comb_arr[k - 1] = combinations(parcel_arr, k);
+//	}
+//
+//	// Async Here
 //	vector<vector<vector<int>>> point_comb_arr(rN);
 //	for (int k = 1; k < rN + 1; k++) {
 //		point_comb_arr[k - 1] = combinations(point_arr, k);
 //	}
 //
-//	for (int k = 2; k < rN + 1; k++) {
-//
-//		vector<vector<int>> gSubsetArr = combinations(parcel_arr, k);
-//
-//		for (vector<int> gSubset : gSubsetArr) {
-//
-//			for (int l = k - 1; l < k + 1; l++) {
-//
-//				vector<vector<int>> rSubsetArr = point_comb_arr[l - 1];
-//
-//				for (vector<int> rSubset : rSubsetArr) {
-//
-//					subset_arr[k + l - 2].push_back(SubsetObj(gSubset, rSubset));
-//
-//					if ((l + k) == 2 * rN) {
-//						bits = 0;
-//
-//						for (int bit : gSubset) {
-//							bits |= (unsigned long long)1 << bit;
-//						}
-//
-//						for (int bit : rSubset) {
-//							bits |= (unsigned long long)1 << bit;
-//						}
-//
-//						route_arr.push_back(bits);
-//					}
-//				}
-//			}
+//	subset_ind = 0;
+//	subset_arr[0].resize(gN * rN);
+//	for (vector<int> gSubset : parcel_comb_arr[0]) {
+//		for (vector<int> rSubset : point_comb_arr[0]) {
+//			subset_arr[0][subset_ind++] = SubsetObj(gSubset, rSubset);
 //		}
 //	}
-//	stop = clock();
-//	cout << "Time Taken: " << stop - start << "ms" << endl;
 //
-//	start = clock();
+//	int number_of_core = thread::hardware_concurrency(), cur_size(-1), subset_size(-1);
+//	vector<future<vector<SubsetObj>>> async_arr(number_of_core);
+//	vector<vector<int>> gSubset_arr, tmp_arr;
+//	for (int k = 2; k < rN + 1; k++) {
+//
+//		gSubset_arr = parcel_comb_arr[k - 1];
+//		cur_size = gSubset_arr.size();
+//
+//		// Async Here
+//		subset_size = point_comb_arr[k - 2].size();
+//		for (int i = 0; i < number_of_core; i++) {
+//			auto start = gSubset_arr.begin() + i * cur_size / number_of_core;
+//			auto end = gSubset_arr.begin() + (i + 1) * cur_size / number_of_core;
+//			tmp_arr = vector<vector<int>>(start, end);
+//			async_arr[i] = async(parallelGenerateCombinations, tmp_arr, ref(point_comb_arr[k - 2]), tmp_arr.size() * subset_size);
+//		}
+//
+//		for (auto& action : async_arr) {
+//			auto tmp_subset_arr = action.get();
+//			subset_arr[2 * k - 3].insert(subset_arr[2 * k - 3].end(), tmp_subset_arr.begin(), tmp_subset_arr.end());
+//		}
+//
+//		subset_size = point_comb_arr[k - 1].size();
+//		for (int i = 0; i < number_of_core; i++) {
+//			auto start = gSubset_arr.begin() + i * cur_size / number_of_core;
+//			auto end = gSubset_arr.begin() + (i + 1) * cur_size / number_of_core;
+//			tmp_arr = vector<vector<int>>(start, end);
+//			async_arr[i] = async(parallelGenerateCombinations, tmp_arr, ref(point_comb_arr[k - 1]), tmp_arr.size() * subset_size);
+//		}
+//
+//		for (auto& action : async_arr) {
+//			auto tmp_subset_arr = action.get();
+//			subset_arr[2 * k - 2].insert(subset_arr[2 * k - 2].end(), tmp_subset_arr.begin(), tmp_subset_arr.end());
+//		}
+//	}
+//
 //	// Iterate subsets of increasing length and store intermediate results in classic dynamic programming manner
 //	// 1. Loop
-//	int cur_size = 0;
-//	int num_of_core = processor_count; // Set Number of threads here
-//	vector<vector<SubsetObj>> tmp_arr(num_of_core);
-//	vector<future<void>> async_arr(num_of_core);
+//	cur_size = 0;
+//	vector<vector<SubsetObj>> tmp_tmp_arr(number_of_core);
+//	vector<future<void>> async_subset_arr(number_of_core);
 //	for (vector<SubsetObj> arr : subset_arr) {
 //		cur_size = arr.size();
 //
 //		// Dynamic [Async Method]
-//		for (int i = 0; i < num_of_core; i++) {
-//			auto start = arr.begin() + i * cur_size / num_of_core;
-//			auto end = arr.begin() + (i + 1) * cur_size / num_of_core;
-//			tmp_arr[i] = vector<SubsetObj>(start, end);
-//			async_arr[i] = async(parallelHeldKarpMap, ref(tmp_arr[i]));
+//		for (int i = 0; i < number_of_core; i++) {
+//			auto start = arr.begin() + i * cur_size / number_of_core;
+//			auto end = arr.begin() + (i + 1) * cur_size / number_of_core;
+//			tmp_tmp_arr[i] = vector<SubsetObj>(start, end);
+//			async_subset_arr[i] = async(parallelHeldKarpMap, ref(tmp_tmp_arr[i]));
 //		}
 //
-//		for (auto& action : async_arr) {
+//		for (auto& action : async_subset_arr) {
 //			action.wait();
 //		}
 //	}
-//	stop = clock();
-//	cout << "Time Taken: " << stop - start << "ms" << endl;
+//
+//	// Add Final Bits
+//	for (vector<int> gSubset : parcel_comb_arr[rN - 1]) {
+//		for (vector<int> rSubset : point_comb_arr[rN - 1]) {
+//			bits = 0;
+//
+//			for (int elem : gSubset) {
+//				bits |= ((unsigned long long) 1 << elem);
+//			}
+//
+//			for (int elem : rSubset) {
+//				bits |= ((unsigned long long) 1 << elem);
+//			}
+//
+//			route_arr.push_back(bits);
+//		}
+//	}
 //
 //	// Initialize Value
 //	double opt = inf, tmp_opt = 0;
@@ -304,9 +320,8 @@
 //	bits = 0;
 //
 //	// Async Here
-//	start = clock();
 //	// Get All Possible Final Paths (E.g. [1 2 3 4], [1 2 4 5], [2 3 4 5])
-//	for (unsigned long long route_bits : route_arr) {
+//	for (long long route_bits : route_arr) {
 //		for (int k : point_arr) {
 //
 //			key = route_bits * 100 + k; // Prev Key
@@ -320,8 +335,6 @@
 //			}
 //		}
 //	}
-//	stop = clock();
-//	cout << "Time Taken: " << stop - start << "ms" << endl;
 //
 //	// Backtrack to find full path
 //	vector<string> path(2 * rN + 2, "Depot");
@@ -330,7 +343,7 @@
 //		// Map Path Index-Element to Col List Index-Element
 //		path[i] = name_arr[parent];
 //		key = bits * 100 + parent;
-//		bits = bits & ~((unsigned long long)1 << parent);
+//		bits = bits & ~((long long)1 << parent);
 //		parent = c_hash_map.at(key).second;
 //	}
 //
@@ -512,24 +525,20 @@
 //		a[i] = i;
 //		b[i] = col_list[i];
 //	}
+//	combs.push_back(b);
 //
-//	while (true) {
-//		combs.push_back(b);
+//	for (int i = 0; i >= 0; ) {
+//		for (i = r - 1; i >= 0 && a[i] >= end + i - r; i--);
 //
-//		int i = r - 1;
+//		if (i < 0) break;
 //
-//		while (i >= 0 && a[i] >= end - 1 - (r - 1 - i)) {
-//			i--;
-//		}
-//
-//		if (i < 0) {
-//			break;
-//		}
-//
+//		// One Loop
 //		for (int j = a[i] + 1; i < r; j++, i++) {
 //			a[i] = j;
 //			b[i] = col_list[j];
 //		}
+//
+//		combs.push_back(b);
 //	}
 //
 //	return combs;

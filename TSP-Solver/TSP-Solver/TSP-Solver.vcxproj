@@ -146,6 +146,7 @@
     <ClCompile Include="DFS-Shit.cpp" />
     <ClCompile Include="for-debugging.cpp" />
     <ClCompile Include="held-karp-multi-threaded.cpp" />
+    <ClCompile Include="Improved_Single_Threaded.cpp" />
     <ClCompile Include="multi-held-karp-shit-real.cpp" />
     <ClCompile Include="one-held-karp-best-so-far.cpp" />
     <ClCompile Include="split-vec.cpp" />
