@@ -45,6 +45,12 @@
     <ClCompile Include="Improved_Single_Threaded.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="open-mp-test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="parallel_testing.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="tsp.txt">

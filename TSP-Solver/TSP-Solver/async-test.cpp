@@ -1,7 +1,9 @@
 //#include <future>
 //#include <iostream>
 //#include <algorithm>
-//#include <unordered_map>
+//#include <omp.h>
+//#include <ppl.h>
+//using namespace concurrency;
 //using namespace std;
 //
 //typedef unsigned long long UINT64;
@@ -16,9 +18,9 @@
 //	return uMap;
 //}
 //
-//UINT64 aSumInt(unsigned int start, unsigned int end) {
+//UINT64 aSumInt(UINT64 start, UINT64 end) {
 //	UINT64 total = 0;
-//	for (unsigned int i = start; i <= end; i ++) {
+//	for (UINT64 i = start; i <= end; i++) {
 //		total += i;
 //	}
 //	return total;
@@ -35,52 +37,63 @@
 //
 //int main() {
 //
-//	int max = 3;
-//
+//	UINT64 max = (UINT64) 1 << 34;
+//	cout << max << endl;
+//	int num_of_core = thread::hardware_concurrency();
+//	atomic<UINT64> total;
 //	long start, stop;
 //
-//	start = clock();
-//
-//	
-//	/*UINT64 total = 0;
-//	for (unsigned int i = 0; i <= max; i += 1) {
+//	/*start = clock();
+//	total = 0;
+//	for (int i = 1; i <= max; i++) {
 //		total += i;
 //	}
-//	cout << total << endl;*/
-//	
-//	vector<int> vec(max + 1, 0);
-//	for (int i = 0; i < vec.size(); i++) {
-//		vec[i] = i;
-//	};
-//
+//	cout << total << endl;
 //	stop = clock();
-//	cout << "Time Taken: " << stop - start << "ms" << endl;
+//	cout << "Time Taken: " << stop - start << "ms" << endl; */
 //
 //	start = clock();
-//	unsigned int half = max / 2;
-//	unsigned int half_half = max / 4;
+//	total = 0;
+//	#pragma omp parallel for
+//	for (int i = 0; i < num_of_core; i++) {
+//		UINT64 start_ind = i * max / num_of_core;
+//		UINT64 end_ind = (i + 1) * max / num_of_core - 1;
+//		total += aSumInt(start_ind, end_ind);
+//	}
+//	total += max;
+//	cout << total << endl;
+//	stop = clock();
+//	cout << "Time Taken: " << stop - start << "ms" << endl;
+//	
+//	start = clock();
 //
-//	unordered_map<int, int> gMap;
+//	total = 0;
+//	vector<future<UINT64>> async_arr(num_of_core);
 //
-//	/*auto f1 = async(aSumInt, 1, half_half - 1);
-//	auto f2 = async(aSumInt, half_half, half - 1);
-//	auto f3 = async(aSumInt, half, half + half_half - 1);
-//	auto f4 = async(aSumInt, half + half_half, max);*/
+//	for (int i = 0; i < num_of_core; i++) {
+//		UINT64 start_ind = i * max / num_of_core;
+//		UINT64 end_ind = (i + 1) * max / num_of_core - 1;
+//		async_arr[i] = async(aSumInt, start_ind, end_ind);
+//	}
 //
-//	auto f1 = async(aSumVec, vector<int>(vec.begin(), vec.begin() + max * 0.25));
-//	auto f2 = async(aSumVec, vector<int>(vec.begin() + max * 0.25, vec.begin() + max * 0.5));
-//	auto f3 = async(aSumVec, vector<int>(vec.begin() + max * 0.5, vec.begin() + max * 0.75));
-//	auto f4 = async(aSumVec, vector<int>(vec.begin() + max * 0.75, vec.end()));
+//	for (auto& action : async_arr) {
+//		total += action.get();
+//	}
 //
-//	auto res1 = f1.get();
-//	auto res2 = f2.get();
-//	auto res3 = f3.get();
-//	auto res4 = f4.get();
-//
-//	cout << res1 + res2 + res3 + res4 << endl;
+//	total += max;
+//	cout << total << endl;
 //
 //	stop = clock();
 //	cout << "Time Taken: " << stop - start << "ms" << endl;
+//
+//	/*start = clock();
+//
+//	total = parallel_for()
+//	total += max;
+//	cout << total << endl;
+//
+//	stop = clock();
+//	cout << "Time Taken: " << stop - start << "ms" << endl;*/
 //
 //	return 0;
 //}
