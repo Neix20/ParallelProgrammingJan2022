@@ -27,7 +27,7 @@
     <ClCompile Include="for-debugging.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="held-karp-multi-threaded.cpp">
+    <ClCompile Include="held-karp-multi-threaded-async.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="multi-held-karp-shit-real.cpp">
@@ -49,6 +49,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="parallel_testing.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="held-karp-multi-threaded-ppl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="held-karp-multi-threaded-omp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
