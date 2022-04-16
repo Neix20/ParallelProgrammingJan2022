@@ -23,6 +23,3 @@ Parcel21 648 285
 Point22 626 110
 Parcel23 624 81
 Parcel24 657 112
-Point25 441 94
-Parcel26 400 83
-Parcel27 491 77
