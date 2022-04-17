@@ -390,31 +390,28 @@
 //	vector<int> parcel_arr = create_parcel_arr(pt_arr);
 //	vector<int> point_arr = create_point_arr(pt_arr);
 //
-//	// Path ans = HeldKarpMultiThreadedNew(adj_mat, parcel_arr, point_arr, name_arr);
+//	cout << "Total Number of Points: " << pt_arr.size() << endl
+//		<< "Depot: 1" << endl
+//		<< "Number of Red Points: " << point_arr.size() << endl
+//		<< "Number of Green Points: " << parcel_arr.size() << endl;
 //
-//	//cout << "Total Number of Points: " << pt_arr.size() << endl
-//	//	<< "Depot: 1" << endl
-//	//	<< "Number of Red Points: " << point_arr.size() << endl
-//	//	<< "Number of Green Points: " << parcel_arr.size() << endl;
-//
-//	//long start, stop;
-//	//start = clock();
+//	long start, stop;
+//	start = clock();
 //
 //	// 4. Get Answer
 //	Path ans = HeldKarpMultiThreadedAsync(parcel_arr, point_arr, name_arr);
 //
-//	//stop = clock();
-//	//cout << "Time Taken: " << stop - start << "ms" << endl;
+//	stop = clock();
+//	cout << "Time Taken: " << stop - start << "ms" << endl;
 //
-//	//cout << ans.toString() << endl;
+//	cout << ans.toString() << endl;
 //
+//	system("pause");
 //
 //	// 6. Output Solution
 //	ofstream outFile("solution.txt");
 //	ans.printPath(outFile);
 //	outFile.close();
-//
-//	/*system("pause");*/
 //
 //	return 0;
 //}

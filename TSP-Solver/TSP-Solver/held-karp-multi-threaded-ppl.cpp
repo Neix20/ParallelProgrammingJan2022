@@ -359,23 +359,23 @@ int main() {
 	vector<int> parcel_arr = create_parcel_arr(pt_arr);
 	vector<int> point_arr = create_point_arr(pt_arr);
 
-	/*cout << "Total Number of Points: " << pt_arr.size() << endl
+	cout << "Total Number of Points: " << pt_arr.size() << endl
 		<< "Depot: 1" << endl
 		<< "Number of Red Points: " << point_arr.size() << endl
 		<< "Number of Green Points: " << parcel_arr.size() << endl;
 
 	long start, stop;
-	start = clock();*/
+	start = clock();
 
 	// 5. Get Answer
 	Path ans = HeldKarpMultiThreadedParallelWindows(parcel_arr, point_arr, name_arr);
 
-	/*stop = clock();
+	stop = clock();
 	cout << "Time Taken: " << stop - start << "ms" << endl;
 
 	cout << ans.toString() << endl;
 
-	system("pause");*/
+	system("pause");
 
 	// 6. Output Solution
 	ofstream outFile("solution.txt");

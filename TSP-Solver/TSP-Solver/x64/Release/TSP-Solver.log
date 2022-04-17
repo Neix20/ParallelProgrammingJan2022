@@ -1,25 +1,19 @@
-﻿  held-karp-multi-threaded-ppl.cpp
-C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\held-karp-multi-threaded-ppl.cpp(87,1): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\held-karp-multi-threaded-ppl.cpp(199,30): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\held-karp-multi-threaded-ppl.cpp(199,30): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
-C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\held-karp-multi-threaded-ppl.cpp(199,54): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\held-karp-multi-threaded-ppl.cpp(199,54): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
-C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\held-karp-multi-threaded-ppl.cpp(199,77): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\held-karp-multi-threaded-ppl.cpp(199,77): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
-C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\held-karp-multi-threaded-ppl.cpp(228,34): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\held-karp-multi-threaded-ppl.cpp(229,33): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\held-karp-multi-threaded-ppl.cpp(238,39): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\held-karp-multi-threaded-ppl.cpp(239,38): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\held-karp-multi-threaded-ppl.cpp(251,39): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\held-karp-multi-threaded-ppl.cpp(252,38): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\held-karp-multi-threaded-ppl.cpp(283,27): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\held-karp-multi-threaded-ppl.cpp(402,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\held-karp-multi-threaded-ppl.cpp(418,41): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\held-karp-multi-threaded-ppl.cpp(481,2): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\held-karp-multi-threaded-ppl.cpp(495,27): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+﻿  Improved_Single_Threaded.cpp
+D:\Github\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\Improved_Single_Threaded.cpp(81,1): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+D:\Github\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\Improved_Single_Threaded.cpp(131,30): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\Github\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\Improved_Single_Threaded.cpp(131,30): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
+D:\Github\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\Improved_Single_Threaded.cpp(131,54): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\Github\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\Improved_Single_Threaded.cpp(131,54): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
+D:\Github\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\Improved_Single_Threaded.cpp(131,77): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\Github\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\Improved_Single_Threaded.cpp(131,77): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
+D:\Github\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\Improved_Single_Threaded.cpp(138,78): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Github\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\Improved_Single_Threaded.cpp(382,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+D:\Github\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\Improved_Single_Threaded.cpp(398,41): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\Github\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\Improved_Single_Threaded.cpp(461,2): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\Github\ParallelProgrammingJan2022\TSP-Solver\TSP-Solver\Improved_Single_Threaded.cpp(475,27): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  held-karp-multi-threaded-ppl.cpp
   Generating code
-  223 of 1114 functions (20.0%) were compiled, the rest were copied from previous compilation.
-    205 functions were new in current compilation
-    5 functions had inline decision re-evaluated but remain unchanged
+  Compiler switch has changed, fall back to full compilation.
+  All 936 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
   Finished generating code
-  TSP-Solver.vcxproj -> C:\Users\spiri\Desktop\ParallelProgrammingJan2022\TSP-Solver\x64\Release\TSP-Solver.exe
+  TSP-Solver.vcxproj -> D:\Github\ParallelProgrammingJan2022\TSP-Solver\x64\Release\TSP-Solver.exe
